@@ -42,7 +42,7 @@ const heroSlides = [
 export default function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Auto-advance slides every 10 seconds (10,000 ms)
+  // Auto-advance slides every 10 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
@@ -60,7 +60,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section id="home" className="relative min-h-[92vh] md:min-h-[95vh] flex items-center justify-center overflow-hidden bg-black">
+    <section id="home" className="relative min-h-[88vh] sm:min-h-[92vh] md:min-h-[95vh] flex items-center justify-center overflow-hidden bg-black py-16 sm:py-20 md:py-28">
       
       {/* Dynamic Background Slideshow with Smooth Crossfade & Subtle Ken Burns Zoom */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -105,29 +105,28 @@ export default function HeroSection() {
       </div>
 
       {/* Hero Foreground Content */}
-      <div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-12 py-24 md:py-32 text-center flex flex-col items-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-12 text-center flex flex-col items-center w-full">
         {/* Brand Emblem / Logo Reveal */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="mb-8 flex flex-col items-center"
+          className="mb-6 sm:mb-8 flex flex-col items-center max-w-full"
         >
           <div className="relative group">
-            {/* Subtle glow backdrop */}
             <div className="absolute -inset-4 bg-[#FF7A00]/20 rounded-full blur-xl opacity-40 group-hover:opacity-75 transition duration-700" />
             <img
               src="/assets/logo-white.png"
               alt="AR. Aman Verma Architect"
-              className="relative h-12 sm:h-14 md:h-16 w-auto object-contain drop-shadow-2xl"
+              className="relative h-10 sm:h-12 md:h-16 w-auto max-w-[260px] sm:max-w-none object-contain drop-shadow-2xl"
               onError={(e) => {
                 e.currentTarget.src = "/images/witetext.png";
               }}
             />
           </div>
 
-          {/* Discipline Tagline Pill */}
-          <div className="mt-5 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[11px] sm:text-xs tracking-[0.22em] text-white/90 uppercase font-medium">
+          {/* Discipline Tagline Pill - Responsive Wrap */}
+          <div className="mt-4 sm:mt-5 inline-flex flex-wrap justify-center items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[10px] sm:text-xs tracking-wider sm:tracking-[0.2em] text-white/90 uppercase font-medium max-w-full">
             <span>Architecture</span>
             <span className="text-[#FF7A00]">•</span>
             <span>Planning</span>
@@ -140,42 +139,45 @@ export default function HeroSection() {
           </div>
         </motion.div>
 
+        {/* H1 Heading */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="font-serif text-white text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tight leading-[1.1] mb-6"
+          className="font-serif text-white text-3xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tight leading-[1.15] sm:leading-[1.1] mb-4 sm:mb-6 max-w-4xl"
         >
           Designing spaces with precision and purpose.
         </motion.h1>
 
+        {/* Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
-          className="text-white/85 text-base sm:text-lg md:text-xl max-w-3xl mx-auto mb-10 font-light tracking-wide leading-relaxed drop-shadow-sm"
+          className="text-white/85 text-sm sm:text-lg md:text-xl max-w-3xl mx-auto mb-8 sm:mb-10 font-light tracking-wide leading-relaxed drop-shadow-sm px-2"
         >
           Crafting bespoke architectural, interior, and urban environments tailored for modern distinction.
         </motion.p>
 
+        {/* CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
+          className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-6 w-full max-w-md sm:max-w-none"
         >
           <a
             href="https://wa.me/916265597717"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto px-8 py-4 bg-[#FF7A00] text-white font-medium text-base hover:bg-[#FF7A00]/90 transition-all duration-300 border border-[#FF7A00] min-w-[220px] text-center shadow-lg hover:shadow-[#FF7A00]/30"
+            className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-[#FF7A00] text-white font-medium text-sm sm:text-base hover:bg-[#FF7A00]/90 transition-all duration-300 border border-[#FF7A00] min-w-0 sm:min-w-[220px] text-center shadow-lg hover:shadow-[#FF7A00]/30"
           >
             Contact Us on WhatsApp
           </a>
           <a
             href="#projects"
             onClick={handleScrollToProjects}
-            className="w-full sm:w-auto px-8 py-4 bg-transparent text-white font-medium text-base border border-white/80 hover:bg-white hover:text-black transition-all duration-300 min-w-[200px] text-center backdrop-blur-xs"
+            className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-transparent text-white font-medium text-sm sm:text-base border border-white/80 hover:bg-white hover:text-black transition-all duration-300 min-w-0 sm:min-w-[200px] text-center backdrop-blur-xs"
           >
             View Projects
           </a>
@@ -183,22 +185,22 @@ export default function HeroSection() {
       </div>
 
       {/* 10-Second Slideshow Progress Indicators & Navigation */}
-      <div className="absolute bottom-6 md:bottom-8 left-0 right-0 z-20 flex flex-col items-center gap-2 pointer-events-auto">
-        <div className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
+      <div className="absolute bottom-3 sm:bottom-6 md:bottom-8 left-0 right-0 z-20 flex flex-col items-center gap-1.5 sm:gap-2 pointer-events-auto px-4">
+        <div className="flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-black/50 backdrop-blur-md border border-white/10 max-w-full overflow-x-auto">
           {heroSlides.map((slide, idx) => {
             const isActive = currentSlide === idx;
             return (
               <button
                 key={slide.id}
                 onClick={() => setCurrentSlide(idx)}
-                className="group relative h-2.5 flex items-center justify-center transition-all duration-300"
+                className="group relative h-3 flex items-center justify-center transition-all duration-300 px-0.5"
                 aria-label={`Go to slide ${idx + 1}: ${slide.title}`}
               >
                 <div
                   className={`h-1.5 rounded-full transition-all duration-500 ${
                     isActive
-                      ? 'w-10 md:w-14 bg-white/30 overflow-hidden relative'
-                      : 'w-2.5 md:w-3 bg-white/30 group-hover:bg-white/60'
+                      ? 'w-8 sm:w-14 bg-white/30 overflow-hidden relative'
+                      : 'w-2 sm:w-3 bg-white/30 group-hover:bg-white/60'
                   }`}
                 >
                   {isActive && (
@@ -217,7 +219,7 @@ export default function HeroSection() {
         </div>
         
         {/* Active Slide Name Label */}
-        <div className="text-[10px] tracking-[0.25em] text-white/60 uppercase font-medium">
+        <div className="text-[9px] sm:text-[10px] tracking-[0.2em] text-white/60 uppercase font-medium text-center">
           0{currentSlide + 1} &mdash; {heroSlides[currentSlide].title}
         </div>
       </div>

@@ -53,22 +53,22 @@ export default function Navbar() {
     <header
       className={`sticky top-0 z-40 w-full transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-black/5 py-4'
-          : 'bg-white py-6 border-b border-transparent'
+          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-black/5 py-3 sm:py-4'
+          : 'bg-white py-4 sm:py-6 border-b border-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between">
         {/* Brand Logo */}
         <a
           href="#home"
           onClick={(e) => handleLinkClick(e, '#home')}
-          className="flex items-center gap-3 group text-left py-1"
+          className="flex items-center gap-2 sm:gap-3 group text-left py-1"
           aria-label="AR. Aman Verma Architect Home"
         >
           <img
             src="/assets/logo-horizontal.png"
             alt="AR. Aman Verma Architect"
-            className="h-8 sm:h-9 md:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+            className="h-7 sm:h-9 md:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
             onError={(e) => {
               e.currentTarget.src = "/images/horizontal.png";
             }}
@@ -76,7 +76,7 @@ export default function Navbar() {
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8 lg:space-x-10">
+        <nav className="hidden md:flex items-center space-x-6 lg:space-x-10">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href.replace('#', '');
             return (
@@ -115,8 +115,9 @@ export default function Navbar() {
         {/* Mobile Hamburger Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden p-2 text-black hover:text-[#FF7A00] transition-colors"
+          className="md:hidden p-2 text-black hover:text-[#FF7A00] transition-colors focus:outline-none"
           aria-label="Toggle navigation menu"
+          aria-expanded={mobileMenuOpen}
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -129,26 +130,34 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-b border-black/10 px-6 py-6 overflow-hidden"
+            className="md:hidden bg-white border-b border-black/10 px-4 sm:px-6 py-5 overflow-hidden shadow-lg"
           >
-            <div className="flex flex-col space-y-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={(e) => handleLinkClick(e, link.href)}
-                  className="text-base font-medium text-black/80 hover:text-[#FF7A00] transition-colors py-1 text-left"
-                >
-                  {link.name}
-                </a>
-              ))}
-              <div className="pt-2">
+            <div className="flex flex-col space-y-2">
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.href.replace('#', '');
+                return (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => handleLinkClick(e, link.href)}
+                    className={`text-base font-medium py-2.5 px-3 rounded-xs transition-colors flex items-center justify-between ${
+                      isActive
+                        ? 'bg-[#FF7A00]/10 text-[#FF7A00] font-semibold'
+                        : 'text-black/80 hover:bg-black/5 hover:text-[#FF7A00]'
+                    }`}
+                  >
+                    <span>{link.name}</span>
+                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#FF7A00]" />}
+                  </a>
+                );
+              })}
+              <div className="pt-3 border-t border-black/10 mt-2">
                 <a
                   href="#contact"
                   onClick={(e) => handleLinkClick(e, '#contact')}
-                  className="block w-full text-center px-6 py-3 bg-black text-white text-sm font-medium hover:bg-[#FF7A00] transition-colors"
+                  className="block w-full text-center px-6 py-3.5 bg-black text-white text-sm font-medium hover:bg-[#FF7A00] transition-colors"
                 >
-                  Contact
+                  Get in Touch
                 </a>
               </div>
             </div>
