@@ -1,4 +1,5 @@
 import React from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
@@ -28,6 +29,9 @@ export default function App() {
 
       {/* Footer */}
       <FooterSection />
+
+      {/* Vercel Web Analytics */}
+      <Analytics />
     </div>
   );
 }
