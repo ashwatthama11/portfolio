@@ -3,13 +3,28 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://amanvermaarchitect.in/</loc>
-    <lastmod>2025-01-01</lastmod>
+    <lastmod>2026-08-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://amanvermaarchitect.in/assets/hero-slide-1.jpg</image:loc>
       <image:title>AR. Aman Verma - Modern Architecture Portfolio</image:title>
       <image:caption>Bespoke residential architectural designs by AR. Aman Verma</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://amanvermaarchitect.in/assets/hero-slide-2.jpg</image:loc>
+      <image:title>AR. Aman Verma - Luxury Interior Architecture</image:title>
+      <image:caption>Modern interior spaces and architecture design</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://amanvermaarchitect.in/assets/hero-slide-3.jpg</image:loc>
+      <image:title>AR. Aman Verma - Urban Planning &amp; Commercial Design</image:title>
+      <image:caption>Civic and commercial architectural concepts</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://amanvermaarchitect.in/assets/hero-slide-4.jpg</image:loc>
+      <image:title>AR. Aman Verma - Turnkey Architecture &amp; Construction</image:title>
+      <image:caption>Full scale architectural execution</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://amanvermaarchitect.in/assets/hero-blueprint.png</image:loc>
@@ -31,41 +46,5 @@
       <image:title>Corporate Center - Commercial Architecture</image:title>
       <image:caption>State of the art corporate administrative architecture</image:caption>
     </image:image>
-  </url>
-  <url>
-    <loc>https://amanvermaarchitect.in/#about</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://amanvermaarchitect.in/#services</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://amanvermaarchitect.in/#projects</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://amanvermaarchitect.in/#process</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://amanvermaarchitect.in/#testimonials</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://amanvermaarchitect.in/#contact</loc>
-    <lastmod>2025-01-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
   </url>
 </urlset>
