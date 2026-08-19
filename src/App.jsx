@@ -7,6 +7,7 @@ import ProcessSection from './components/ProcessSection';
 import ProjectsSection from './components/ProjectsSection';
 import TestimonialsSection from './components/TestimonialsSection';
 import ContactSection from './components/ContactSection';
+import MapSection from './components/MapSection';
 import FooterSection from './components/FooterSection';
 
 export default function App() {
@@ -24,6 +25,7 @@ export default function App() {
         <ProjectsSection />
         <TestimonialsSection />
         <ContactSection />
+        <MapSection />
       </main>
 
       {/* Footer */}

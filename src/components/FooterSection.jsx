@@ -62,6 +62,7 @@ export default function FooterSection() {
                 { name: 'Selected Works', href: '#projects' },
                 { name: 'Our Process', href: '#process' },
                 { name: 'Testimonials', href: '#testimonials' },
+                { name: 'Studio Location', href: '#location' },
                 { name: 'Contact Us', href: '#contact' },
               ].map((link) => (
                 <li key={link.name}>
