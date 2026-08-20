@@ -1,11 +1,32 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MessageCircle, Mail, FileText } from 'lucide-react';
+import { MessageCircle, Mail, FileText, Instagram, Linkedin, Facebook } from 'lucide-react';
 import BlueprintGrid from './BlueprintGrid';
 import QuoteModal from './QuoteModal';
 
 export default function ContactSection() {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+
+  const socialHandles = [
+    {
+      name: 'Instagram',
+      handle: '@amanvermaarchitect',
+      href: 'https://www.instagram.com/amanvermaarchitect/',
+      icon: Instagram,
+    },
+    {
+      name: 'LinkedIn',
+      handle: 'AR. Aman Verma',
+      href: 'https://www.linkedin.com/in/aman-verma-57ab69243/',
+      icon: Linkedin,
+    },
+    {
+      name: 'Facebook',
+      handle: 'onenessaman',
+      href: 'https://www.facebook.com/onenessaman/',
+      icon: Facebook,
+    }
+  ];
 
   return (
     <section id="contact" className="relative py-16 sm:py-24 md:py-36 bg-white overflow-hidden">
@@ -65,7 +86,26 @@ export default function ContactSection() {
             </a>
           </div>
 
-          <p className="text-black/50 text-[11px] sm:text-sm pt-2 sm:pt-4">
+          {/* Connect via Social Handles */}
+          <div className="pt-4 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            {socialHandles.map((handle) => {
+              const Icon = handle.icon;
+              return (
+                <a
+                  key={handle.name}
+                  href={handle.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-neutral-100 hover:bg-[#FF7A00] text-black/80 hover:text-white text-xs font-medium border border-black/10 transition-colors rounded-xs"
+                >
+                  <Icon className="w-3.5 h-3.5 text-[#FF7A00] group-hover:text-white" />
+                  <span>{handle.name}: <strong>{handle.handle}</strong></span>
+                </a>
+              );
+            })}
+          </div>
+
+          <p className="text-black/50 text-[11px] sm:text-sm pt-2">
             Direct Studio Response within 24 hours. Confidential &amp; tailored estimates.
           </p>
         </motion.div>

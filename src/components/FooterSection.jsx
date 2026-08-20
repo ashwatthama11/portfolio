@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, Linkedin, Globe, MapPin, Phone, Mail, MessageSquare } from 'lucide-react';
+import { Instagram, Linkedin, Facebook, Globe, MapPin, Phone, Mail, MessageSquare } from 'lucide-react';
 import BlueprintGrid from './BlueprintGrid';
 import { citiesData } from '../data/citiesData';
 import { servicesData } from '../data/servicesData';
@@ -15,6 +15,33 @@ export default function FooterSection({ onNavigateHome, onSelectCity, onSelectSe
       }
     }, 100);
   };
+
+  const socialLinks = [
+    {
+      name: 'Instagram',
+      href: 'https://www.instagram.com/amanvermaarchitect/',
+      icon: Instagram,
+      label: '@amanvermaarchitect'
+    },
+    {
+      name: 'LinkedIn',
+      href: 'https://www.linkedin.com/in/aman-verma-57ab69243/',
+      icon: Linkedin,
+      label: 'AR. Aman Verma'
+    },
+    {
+      name: 'Facebook',
+      href: 'https://www.facebook.com/onenessaman/',
+      icon: Facebook,
+      label: 'Aman Verma Architects'
+    },
+    {
+      name: 'Official Website',
+      href: 'https://amanvermaarchitect.in',
+      icon: Globe,
+      label: 'amanvermaarchitect.in'
+    }
+  ];
 
   return (
     <footer className="relative bg-black text-white py-12 sm:py-16 md:py-20 overflow-hidden">
@@ -142,35 +169,22 @@ export default function FooterSection({ onNavigateHome, onSelectCity, onSelectSe
             </div>
 
             <div className="flex items-center gap-2 pt-2">
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="w-9 h-9 border border-white/20 hover:border-[#FF7A00] hover:bg-[#FF7A00] transition-all flex items-center justify-center group"
-              >
-                <Instagram className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
-              </a>
-
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="w-9 h-9 border border-white/20 hover:border-[#FF7A00] hover:bg-[#FF7A00] transition-all flex items-center justify-center group"
-              >
-                <Linkedin className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
-              </a>
-
-              <a
-                href="https://amanvermaarchitect.in"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Official Website"
-                className="w-9 h-9 border border-white/20 hover:border-[#FF7A00] hover:bg-[#FF7A00] transition-all flex items-center justify-center group"
-              >
-                <Globe className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
-              </a>
+              {socialLinks.map((item) => {
+                const IconComponent = item.icon;
+                return (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={item.name}
+                    title={`${item.name}: ${item.label}`}
+                    className="w-9 h-9 border border-white/20 hover:border-[#FF7A00] hover:bg-[#FF7A00] transition-all duration-300 flex items-center justify-center group rounded-xs"
+                  >
+                    <IconComponent className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
+                  </a>
+                );
+              })}
             </div>
           </div>
 
