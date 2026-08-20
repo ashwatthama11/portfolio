@@ -15,13 +15,14 @@ import MapSection from './components/MapSection';
 import FooterSection from './components/FooterSection';
 import CityPageView from './components/CityPageView';
 import ServicePageView from './components/ServicePageView';
+import SitemapView from './components/SitemapView';
 import QuoteModal from './components/QuoteModal';
 
 import { citiesData } from './data/citiesData';
 import { servicesData } from './data/servicesData';
 
 export default function App() {
-  // Navigation View State: 'home', 'city', 'service'
+  // Navigation View State: 'home', 'city', 'service', 'sitemap'
   const [currentView, setCurrentView] = useState('home');
   const [selectedCitySlug, setSelectedCitySlug] = useState(null);
   const [selectedServiceSlug, setSelectedServiceSlug] = useState(null);
@@ -30,12 +31,18 @@ export default function App() {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [quotePrefill, setQuotePrefill] = useState(null);
 
-  // Handle URL hash changes for deep linking (e.g., #/city/pune or #/service/house-planning)
+  // Handle URL hash changes for deep linking (e.g., #/city/pune, #/service/house-planning, #/sitemap)
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash;
 
-      if (hash.startsWith('#/city/')) {
+      if (hash === '#/sitemap' || hash === '#sitemap') {
+        setCurrentView('sitemap');
+        setSelectedCitySlug(null);
+        setSelectedServiceSlug(null);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      } else if (hash.startsWith('#/city/')) {
         const slug = hash.replace('#/city/', '').trim().toLowerCase();
         const cityExists = citiesData.find((c) => c.slug === slug);
         if (cityExists) {
@@ -56,7 +63,7 @@ export default function App() {
       }
 
       // Default or section anchor
-      if (!hash.startsWith('#/city/') && !hash.startsWith('#/service/')) {
+      if (!hash.startsWith('#/city/') && !hash.startsWith('#/service/') && hash !== '#/sitemap' && hash !== '#sitemap') {
         setCurrentView('home');
       }
     };
@@ -93,6 +100,15 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Handler to open sitemap view
+  const handleNavigateSitemap = () => {
+    setCurrentView('sitemap');
+    setSelectedCitySlug(null);
+    setSelectedServiceSlug(null);
+    window.location.hash = '#/sitemap';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // Handler to trigger quote modal with prefill options
   const handleOpenQuote = (prefillData = null) => {
     setQuotePrefill(prefillData);
@@ -112,11 +128,19 @@ export default function App() {
         onNavigateHome={handleNavigateHome}
         onSelectCity={handleSelectCity}
         onSelectService={handleSelectService}
+        onNavigateSitemap={handleNavigateSitemap}
       />
 
       {/* Main Content Render Based on View State */}
       <main className="flex-grow">
-        {currentView === 'city' && activeCity ? (
+        {currentView === 'sitemap' ? (
+          /* Visual HTML & XML Sitemap Directory */
+          <SitemapView
+            onNavigateHome={handleNavigateHome}
+            onSelectCity={handleSelectCity}
+            onSelectService={handleSelectService}
+          />
+        ) : currentView === 'city' && activeCity ? (
           /* Dedicated City Landing Page */
           <CityPageView
             city={activeCity}
@@ -192,6 +216,7 @@ export default function App() {
         onNavigateHome={handleNavigateHome}
         onSelectCity={handleSelectCity}
         onSelectService={handleSelectService}
+        onNavigateSitemap={handleNavigateSitemap}
       />
 
       {/* Interactive Project Quote Modal */}

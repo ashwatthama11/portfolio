@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { citiesData } from '../data/citiesData';
 import { servicesData } from '../data/servicesData';
 
-export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, currentView }) {
+export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, onNavigateSitemap, currentView }) {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -18,6 +18,7 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
     { name: 'Projects', href: '#projects' },
     { name: 'Why Us', href: '#why-choose-us' },
     { name: 'Guides', href: '#guides' },
+    { name: 'Sitemap', href: '#/sitemap', isCustomAction: 'sitemap' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -47,11 +48,16 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentView]);
 
-  const handleLinkClick = (e, href) => {
+  const handleLinkClick = (e, href, isCustomAction = null) => {
     e.preventDefault();
     setMobileMenuOpen(false);
     setServicesDropdownOpen(false);
     setCitiesDropdownOpen(false);
+
+    if (isCustomAction === 'sitemap' || href === '#/sitemap') {
+      if (onNavigateSitemap) onNavigateSitemap();
+      return;
+    }
 
     if (currentView !== 'home') {
       onNavigateHome();
@@ -206,7 +212,7 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
               <a
                 key={link.name}
                 href={link.href}
-                onClick={(e) => handleLinkClick(e, link.href)}
+                onClick={(e) => handleLinkClick(e, link.href, link.isCustomAction)}
                 className={`relative text-sm tracking-wide font-medium transition-colors duration-300 py-1 ${
                   isActive ? 'text-black font-semibold' : 'text-black/70 hover:text-[#FF7A00]'
                 }`}
@@ -315,6 +321,13 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
                     {href.replace('#', '').replace('-', ' ').toUpperCase()}
                   </a>
                 ))}
+                <button
+                  onClick={(e) => handleLinkClick(e, '#/sitemap', 'sitemap')}
+                  className="w-full text-left text-sm font-medium py-2 px-3 text-[#FF7A00] hover:bg-[#FF7A00]/10 flex items-center justify-between cursor-pointer"
+                >
+                  <span>SITEMAP DIRECTORY (HTML &amp; XML)</span>
+                  <span className="text-xs">→</span>
+                </button>
               </div>
 
               <div className="pt-3 border-t border-black/10 mt-2">

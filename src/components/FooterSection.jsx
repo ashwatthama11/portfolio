@@ -4,9 +4,13 @@ import BlueprintGrid from './BlueprintGrid';
 import { citiesData } from '../data/citiesData';
 import { servicesData } from '../data/servicesData';
 
-export default function FooterSection({ onNavigateHome, onSelectCity, onSelectService }) {
+export default function FooterSection({ onNavigateHome, onSelectCity, onSelectService, onNavigateSitemap }) {
   const handleScroll = (e, href) => {
     e.preventDefault();
+    if (href === '#/sitemap' || href === '#sitemap') {
+      if (onNavigateSitemap) onNavigateSitemap();
+      return;
+    }
     if (onNavigateHome) onNavigateHome();
     setTimeout(() => {
       const target = document.querySelector(href);
@@ -131,7 +135,7 @@ export default function FooterSection({ onNavigateHome, onSelectCity, onSelectSe
           {/* Column 4: Quick Navigation & Social */}
           <div className="space-y-3 sm:space-y-4">
             <h4 className="text-xs sm:text-sm font-semibold tracking-widest uppercase text-white/90 pb-1 border-b border-white/10">
-              Quick Navigation
+              Navigation &amp; Sitemaps
             </h4>
             <ul className="grid grid-cols-2 gap-2 text-xs">
               {[
@@ -143,15 +147,35 @@ export default function FooterSection({ onNavigateHome, onSelectCity, onSelectSe
                 { name: 'Our Process', href: '#process' },
                 { name: 'Testimonials', href: '#testimonials' },
                 { name: 'Studio Map', href: '#location' },
+                { name: 'HTML Sitemap', href: '#/sitemap', isCustom: true },
+                { name: 'XML Sitemap', href: '/sitemap.xml', isExternal: true },
               ].map((link) => (
                 <li key={link.name}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => handleScroll(e, link.href)}
-                    className="text-white/70 hover:text-[#FF7A00] transition-colors inline-block py-0.5"
-                  >
-                    {link.name}
-                  </a>
+                  {link.isExternal ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#FF7A00] hover:underline transition-colors inline-block py-0.5 font-semibold"
+                    >
+                      {link.name} &rarr;
+                    </a>
+                  ) : link.isCustom ? (
+                    <button
+                      onClick={() => onNavigateSitemap && onNavigateSitemap()}
+                      className="text-[#FF7A00] hover:underline transition-colors inline-block py-0.5 font-semibold cursor-pointer text-left"
+                    >
+                      {link.name}
+                    </button>
+                  ) : (
+                    <a
+                      href={link.href}
+                      onClick={(e) => handleScroll(e, link.href)}
+                      className="text-white/70 hover:text-[#FF7A00] transition-colors inline-block py-0.5"
+                    >
+                      {link.name}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -195,8 +219,31 @@ export default function FooterSection({ onNavigateHome, onSelectCity, onSelectSe
           <div>
             &copy; {new Date().getFullYear()} AR. Aman Verma Architects (amanvermaarchitect.in). All Rights Reserved.
           </div>
-          <div>
-            Architect in Pune • Mumbai • Indore • Akola • Burhanpur | Maharashtra &amp; Madhya Pradesh
+          <div className="flex items-center gap-3 flex-wrap justify-center">
+            <button
+              onClick={() => onNavigateSitemap && onNavigateSitemap()}
+              className="text-white/60 hover:text-[#FF7A00] transition-colors cursor-pointer"
+            >
+              HTML Sitemap Directory
+            </button>
+            <span>•</span>
+            <a
+              href="/sitemap.xml"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#FF7A00] hover:underline"
+            >
+              XML Sitemap
+            </a>
+            <span>•</span>
+            <a
+              href="/robots.txt"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/60 hover:text-[#FF7A00]"
+            >
+              robots.txt
+            </a>
           </div>
         </div>
       </div>
