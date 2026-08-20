@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, MessageSquare, CheckCircle2 } from 'lucide-react';
 
-export default function QuoteModal({ isOpen, onClose }) {
+export default function QuoteModal({ isOpen, onClose, initialData = null }) {
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
@@ -18,6 +18,17 @@ export default function QuoteModal({ isOpen, onClose }) {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submissionMethod, setSubmissionMethod] = useState(null);
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData((prev) => ({
+        ...prev,
+        location: initialData.location || prev.location,
+        service: initialData.service || prev.service,
+        message: initialData.message || prev.message
+      }));
+    }
+  }, [initialData, isOpen]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {

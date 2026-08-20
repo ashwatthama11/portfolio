@@ -1,50 +1,170 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Primary Homepage: Professional Architect & Survey Services in Maharashtra & Madhya Pradesh -->
   <url>
     <loc>https://amanvermaarchitect.in/</loc>
-    <lastmod>2026-08-19</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://amanvermaarchitect.in/assets/hero-slide-1.jpg</image:loc>
-      <image:title>AR. Aman Verma - Modern Architecture Portfolio</image:title>
-      <image:caption>Bespoke residential architectural designs by AR. Aman Verma</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://amanvermaarchitect.in/assets/hero-slide-2.jpg</image:loc>
-      <image:title>AR. Aman Verma - Luxury Interior Architecture</image:title>
-      <image:caption>Modern interior spaces and architecture design</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://amanvermaarchitect.in/assets/hero-slide-3.jpg</image:loc>
-      <image:title>AR. Aman Verma - Urban Planning &amp; Commercial Design</image:title>
-      <image:caption>Civic and commercial architectural concepts</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://amanvermaarchitect.in/assets/hero-slide-4.jpg</image:loc>
-      <image:title>AR. Aman Verma - Turnkey Architecture &amp; Construction</image:title>
-      <image:caption>Full scale architectural execution</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://amanvermaarchitect.in/assets/hero-blueprint.png</image:loc>
-      <image:title>Architectural Blueprint &amp; Planning</image:title>
-      <image:caption>Precision drafting, surveying and architectural engineering</image:caption>
+      <image:title>AR. Aman Verma - Modern Architecture Portfolio in Maharashtra &amp; Madhya Pradesh</image:title>
+      <image:caption>Professional Architect &amp; Survey Services in Maharashtra &amp; Madhya Pradesh</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://amanvermaarchitect.in/assets/aman-verma-portrait.png</image:loc>
-      <image:title>AR. Aman Verma - Principal Architect</image:title>
-      <image:caption>Principal Architect and Founder of Aman Verma Architect Studio</image:caption>
+      <image:title>AR. Aman Verma - Principal Architect &amp; Founder</image:title>
+      <image:caption>Principal Architect and Founder of Aman Verma Architects Studio</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://amanvermaarchitect.in/assets/logo-horizontal.png</image:loc>
+      <image:title>Aman Verma Architects Emblem</image:title>
+      <image:caption>Official Brand Emblem of Aman Verma Architects</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://amanvermaarchitect.in/assets/project-4.png</image:loc>
-      <image:title>Architectural Structure - Commercial Project</image:title>
-      <image:caption>Commercial architectural project by AR. Aman Verma</image:caption>
+      <image:title>Commercial Architecture - Corporate Center</image:title>
+      <image:caption>State of the art commercial architecture and municipal building sanction</image:caption>
     </image:image>
     <image:image>
       <image:loc>https://amanvermaarchitect.in/assets/project-6.png</image:loc>
-      <image:title>Corporate Center - Commercial Architecture</image:title>
-      <image:caption>State of the art corporate administrative architecture</image:caption>
+      <image:title>Corporate Workplace &amp; IT Complex Architecture</image:title>
+      <image:caption>Commercial architectural project by AR. Aman Verma</image:caption>
     </image:image>
   </url>
+
+  <!-- City Specific SEO Pages -->
+  <!-- 1. Pune, Maharashtra -->
+  <url>
+    <loc>https://amanvermaarchitect.in/#/city/pune</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=1920&amp;q=80</image:loc>
+      <image:title>Best Architect in Pune - Luxury Villa &amp; House Planning</image:title>
+      <image:caption>PMC and PCMC AutoDCR building approvals, luxury villa house planning, and DGPS land surveys in Pune</image:caption>
+    </image:image>
+  </url>
+
+  <!-- 2. Mumbai, Maharashtra -->
+  <url>
+    <loc>https://amanvermaarchitect.in/#/city/mumbai</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&amp;fit=crop&amp;w=1920&amp;q=80</image:loc>
+      <image:title>Leading Architect in Mumbai - Luxury Penthouse &amp; Commercial Complexes</image:title>
+      <image:caption>MCGM and BMC building plan approvals, luxury interior design, and commercial architecture in Mumbai</image:caption>
+    </image:image>
+  </url>
+
+  <!-- 3. Indore, Madhya Pradesh -->
+  <url>
+    <loc>https://amanvermaarchitect.in/#/city/indore</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&amp;fit=crop&amp;w=1920&amp;q=80</image:loc>
+      <image:title>Top Architect in Indore - Super Corridor Commercial &amp; Vastu Villas</image:title>
+      <image:caption>IMC e-NagarPalika building plan approvals, modern house planning, and DGPS farmland surveys in Indore</image:caption>
+    </image:image>
+  </url>
+
+  <!-- 4. Akola, Maharashtra -->
+  <url>
+    <loc>https://amanvermaarchitect.in/#/city/akola</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&amp;fit=crop&amp;w=1920&amp;q=80</image:loc>
+      <image:title>Affordable Architect in Akola - Climate-Smart House Planning &amp; Sanctions</image:title>
+      <image:caption>Akola Municipal Corporation building sanctions, affordable house plan design, and Total Station surveys</image:caption>
+    </image:image>
+  </url>
+
+  <!-- 5. Burhanpur, Madhya Pradesh -->
+  <url>
+    <loc>https://amanvermaarchitect.in/#/city/burhanpur</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1623051786509-57224cdc43e1?auto=format&amp;fit=crop&amp;w=1920&amp;q=80</image:loc>
+      <image:title>Premier Architect Studio in Burhanpur - Head Office at Kanch Mandir Marg</image:title>
+      <image:caption>Headquarters studio of Aman Verma Architects on Kanch Mandir Marg, Sindhipura, Burhanpur</image:caption>
+    </image:image>
+  </url>
+
+  <!-- High SEO Value Service Pages -->
+  <!-- 1. House Planning & Vastu Services -->
+  <url>
+    <loc>https://amanvermaarchitect.in/#/service/house-planning</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=1920&amp;q=80</image:loc>
+      <image:title>House Planning &amp; Vastu Services - 2D Floor Plans &amp; 3D Elevations</image:title>
+      <image:caption>Bespoke 2D blueprints, 3D modern front elevations, structural drawings, and 100% Vastu compliance</image:caption>
+    </image:image>
+  </url>
+
+  <!-- 2. Commercial Architect Services -->
+  <url>
+    <loc>https://amanvermaarchitect.in/#/service/commercial-architect</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&amp;fit=crop&amp;w=1920&amp;q=80</image:loc>
+      <image:title>Commercial Building Architect - Malls, Hospitals &amp; Office Towers</image:title>
+      <image:caption>Commercial architecture for shopping malls, multi-specialty hospitals, hotels, and retail plazas</image:caption>
+    </image:image>
+  </url>
+
+  <!-- 3. Interior Design Services -->
+  <url>
+    <loc>https://amanvermaarchitect.in/#/service/interior-design</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1705321963943-de94bb3f0dd3?auto=format&amp;fit=crop&amp;w=1920&amp;q=80</image:loc>
+      <image:title>Luxury Interior Design Services - Residential &amp; Commercial</image:title>
+      <image:caption>Bespoke luxury residential styling, modular kitchens, corporate workspace interiors, and lighting</image:caption>
+    </image:image>
+  </url>
+
+  <!-- 4. Building Plan Approval & Municipal Sanction -->
+  <url>
+    <loc>https://amanvermaarchitect.in/#/service/building-plan-approval</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1681216868987-b7268753b81c?auto=format&amp;fit=crop&amp;w=1920&amp;q=80</image:loc>
+      <image:title>Building Plan Approval Services - AutoDCR, BPMS &amp; Municipal Sanction</image:title>
+      <image:caption>Fast-track municipal building permission approvals across Maharashtra BPMS and MP e-NagarPalika</image:caption>
+    </image:image>
+  </url>
+
+  <!-- 5. Land Survey Services (DGPS & Total Station) -->
+  <url>
+    <loc>https://amanvermaarchitect.in/#/service/land-survey</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.90</priority>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1541888946425-d0fbb18086f6?auto=format&amp;fit=crop&amp;w=1920&amp;q=80</image:loc>
+      <image:title>Land Survey Services - DGPS Survey &amp; Total Station Contour Mapping</image:title>
+      <image:caption>Sub-centimeter dual-frequency GNSS DGPS survey and agricultural farmland boundary demarcation</image:caption>
+    </image:image>
+  </url>
+
 </urlset>
