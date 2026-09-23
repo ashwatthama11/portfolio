@@ -41,7 +41,7 @@ export default function AboutSection() {
             </div>
 
             <h2 className="font-serif text-black text-2xl sm:text-4xl md:text-5xl tracking-tight leading-tight">
-              About Aman Verma Architect
+              About Ar. Aman Verma
             </h2>
 
             <div className="space-y-4 sm:space-y-6 text-black/75 leading-relaxed text-sm sm:text-base md:text-lg">
