@@ -16,13 +16,14 @@ import FooterSection from './components/FooterSection';
 import CityPageView from './components/CityPageView';
 import ServicePageView from './components/ServicePageView';
 import SitemapView from './components/SitemapView';
+import SmartLayoutView from './components/SmartLayoutView';
 import QuoteModal from './components/QuoteModal';
 
 import { citiesData } from './data/citiesData';
 import { servicesData } from './data/servicesData';
 
 export default function App() {
-  // Navigation View State: 'home', 'city', 'service', 'sitemap'
+  // Navigation View State: 'home', 'city', 'service', 'sitemap', 'smart-layout'
   const [currentView, setCurrentView] = useState('home');
   const [selectedCitySlug, setSelectedCitySlug] = useState(null);
   const [selectedServiceSlug, setSelectedServiceSlug] = useState(null);
@@ -38,6 +39,12 @@ export default function App() {
 
       if (hash === '#/sitemap' || hash === '#sitemap') {
         setCurrentView('sitemap');
+        setSelectedCitySlug(null);
+        setSelectedServiceSlug(null);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      } else if (hash === '#/smart-layout' || hash === '#smart-layout') {
+        setCurrentView('smart-layout');
         setSelectedCitySlug(null);
         setSelectedServiceSlug(null);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -63,7 +70,7 @@ export default function App() {
       }
 
       // Default or section anchor
-      if (!hash.startsWith('#/city/') && !hash.startsWith('#/service/') && hash !== '#/sitemap' && hash !== '#sitemap') {
+      if (!hash.startsWith('#/city/') && !hash.startsWith('#/service/') && hash !== '#/sitemap' && hash !== '#sitemap' && hash !== '#/smart-layout' && hash !== '#smart-layout') {
         setCurrentView('home');
       }
     };
@@ -109,6 +116,14 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleNavigateSmartLayout = () => {
+    setCurrentView('smart-layout');
+    setSelectedCitySlug(null);
+    setSelectedServiceSlug(null);
+    window.location.hash = '#/smart-layout';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   // Handler to trigger quote modal with prefill options
   const handleOpenQuote = (prefillData = null) => {
     setQuotePrefill(prefillData);
@@ -129,6 +144,7 @@ export default function App() {
         onSelectCity={handleSelectCity}
         onSelectService={handleSelectService}
         onNavigateSitemap={handleNavigateSitemap}
+        onNavigateSmartLayout={handleNavigateSmartLayout}
       />
 
       {/* Main Content Render Based on View State */}
@@ -140,6 +156,8 @@ export default function App() {
             onSelectCity={handleSelectCity}
             onSelectService={handleSelectService}
           />
+        ) : currentView === 'smart-layout' ? (
+          <SmartLayoutView onNavigateHome={handleNavigateHome} />
         ) : currentView === 'city' && activeCity ? (
           /* Dedicated City Landing Page */
           <CityPageView

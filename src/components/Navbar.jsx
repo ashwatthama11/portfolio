@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronDown, MapPin, Building2, Phone } from 'lucide-react';
+import { Menu, X, ChevronDown, MapPin, Building2, Phone, Box } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { citiesData } from '../data/citiesData';
 import { servicesData } from '../data/servicesData';
 
-export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, onNavigateSitemap, currentView }) {
+export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, onNavigateSitemap, onNavigateSmartLayout, currentView }) {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -18,6 +18,7 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
     { name: 'Projects', href: '#projects' },
     { name: 'Why Us', href: '#why-choose-us' },
     { name: 'Guides', href: '#guides' },
+    { name: 'Smart Layout', href: '#/smart-layout', isCustomAction: 'smart-layout' },
     { name: 'Sitemap', href: '#/sitemap', isCustomAction: 'sitemap' },
     { name: 'Contact', href: '#contact' },
   ];
@@ -56,6 +57,11 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
 
     if (isCustomAction === 'sitemap' || href === '#/sitemap') {
       if (onNavigateSitemap) onNavigateSitemap();
+      return;
+    }
+
+    if (isCustomAction === 'smart-layout' || href === '#/smart-layout') {
+      if (onNavigateSmartLayout) onNavigateSmartLayout();
       return;
     }
 
@@ -114,7 +120,7 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
         </button>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-5 lg:space-x-8">
+        <nav className="hidden md:flex items-center space-x-3 lg:space-x-5">
           {navLinks.map((link) => {
             if (link.isDropdown === 'services') {
               return (
@@ -126,7 +132,7 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
                 >
                   <button
                     onClick={(e) => handleLinkClick(e, '#services')}
-                    className="flex items-center gap-1 text-sm tracking-wide font-medium text-black/75 hover:text-[#FF7A00] transition-colors py-1 cursor-pointer"
+                    className="flex items-center gap-1 text-xs tracking-wide font-medium text-black/75 hover:text-[#FF7A00] transition-colors py-1 cursor-pointer"
                   >
                     <span>Services</span>
                     <ChevronDown className="w-3.5 h-3.5" />
@@ -171,7 +177,7 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
                 >
                   <button
                     onClick={(e) => handleLinkClick(e, '#cities')}
-                    className="flex items-center gap-1 text-sm tracking-wide font-medium text-black/75 hover:text-[#FF7A00] transition-colors py-1 cursor-pointer"
+                    className="flex items-center gap-1 text-xs tracking-wide font-medium text-black/75 hover:text-[#FF7A00] transition-colors py-1 cursor-pointer"
                   >
                     <span>Cities</span>
                     <ChevronDown className="w-3.5 h-3.5" />
@@ -213,7 +219,7 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href, link.isCustomAction)}
-                className={`relative text-sm tracking-wide font-medium transition-colors duration-300 py-1 ${
+                className={`relative text-xs tracking-wide font-medium transition-colors duration-300 py-1 ${
                   isActive ? 'text-black font-semibold' : 'text-black/70 hover:text-[#FF7A00]'
                 }`}
               >
@@ -230,11 +236,21 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
           })}
         </nav>
 
+        {/* Smart Layout Icon Button */}
+        <button
+          type="button"
+          onClick={() => onNavigateSmartLayout && onNavigateSmartLayout()}
+          title="Smart Layout — Interactive 3D Demo"
+          className="hidden md:grid place-items-center w-8 h-8 rounded-full border border-[#FF7A00]/30 bg-[#FF7A00]/5 text-[#FF7A00] hover:bg-[#FF7A00] hover:text-white hover:border-[#FF7A00] transition-all duration-200 hover:shadow-[0_0_12px_rgba(255,122,0,0.4)]"
+        >
+          <Box className="w-4 h-4" />
+        </button>
+
         {/* Desktop WhatsApp CTA */}
         <div className="hidden md:flex items-center gap-3">
           <a
             href="tel:+916265597717"
-            className="text-xs font-medium text-black/70 hover:text-black flex items-center gap-1.5 pr-2"
+            className="text-[11px] font-medium text-black/70 hover:text-black flex items-center gap-1 pr-1"
           >
             <Phone className="w-3.5 h-3.5 text-[#FF7A00]" />
             <span>+91 6265597717</span>
