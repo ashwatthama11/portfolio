@@ -338,6 +338,16 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
                   </a>
                 ))}
                 <button
+                  onClick={() => { setMobileMenuOpen(false); onNavigateSmartLayout && onNavigateSmartLayout(); }}
+                  className="w-full text-left text-sm font-medium py-2 px-3 hover:bg-[#FF7A00]/10 flex items-center justify-between cursor-pointer"
+                >
+                  <span className="flex items-center gap-2">
+                    <Box className="w-4 h-4 text-[#FF7A00]" />
+                    <span>SMART LAYOUT — 3D DEMO</span>
+                  </span>
+                  <span className="text-xs text-[#FF7A00]">→</span>
+                </button>
+                <button
                   onClick={(e) => handleLinkClick(e, '#/sitemap', 'sitemap')}
                   className="w-full text-left text-sm font-medium py-2 px-3 text-[#FF7A00] hover:bg-[#FF7A00]/10 flex items-center justify-between cursor-pointer"
                 >
