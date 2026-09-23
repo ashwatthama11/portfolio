@@ -1,4 +1,4 @@
-﻿/* Canvas 2D renderer for the colony master plan (map-app style).
+/* Canvas 2D renderer for the colony master plan (map-app style).
  * startColonyMap(DATA, { soldIds }) -> cleanup()
  * Expects the markup in components/ColonyMap.jsx to be mounted (uses its element ids).
  */
@@ -83,7 +83,7 @@ export function startColonyMap(DATA, opts) {
     let theta = 0.35, phi = 0.95, radius = 52;
     const tgt = { x: 0, z: 0 };
     const cam = { x: 0, y: 0, z: 0 }, Rt = { x: 1, z: 0 }, Up = { x: 0, y: 1, z: 0 }, Fw = { x: 0, y: 0, z: -1 };
-    const MIN_PHI = 0.02, MAX_PHI = Math.PI / 2.1, MIN_R = 3, MAX_R = 110;
+    const MIN_PHI = 0.02, MAX_PHI = Math.PI / 2.1, MIN_R = 7, MAX_R = 110;
     function updateCam() {
       phi = Math.max(MIN_PHI, Math.min(MAX_PHI, phi)); radius = Math.max(MIN_R, Math.min(MAX_R, radius));
       cam.x = tgt.x + radius * Math.sin(phi) * Math.sin(theta); cam.y = radius * Math.cos(phi); cam.z = tgt.z + radius * Math.sin(phi) * Math.cos(theta);
@@ -517,7 +517,7 @@ export function startColonyMap(DATA, opts) {
     });
     function endPointer(e, click) {
       pointers.delete(e.pointerId); pinchDist = 0; pinchMid = null;
-      if (click && down) { if (Math.hypot(e.clientX - down.x, e.clientY - down.y) <= (e.pointerType === "touch" ? 14 : 6)) { const id = pick(e); if (id != null) setSelected(id); } }
+      if (click && down) { if (Math.hypot(e.clientX - down.x, e.clientY - down.y) <= (e.pointerType === "touch" ? 14 : 6)) { const id = pick(e); setSelected(id === selectedId ? null : id); } }
       down = null;
     }
     on(canvas, "pointerup", (e) => endPointer(e, true));

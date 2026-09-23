@@ -39,7 +39,7 @@ export default function SmartLayoutView({ onNavigateHome }) {
                 A spatial workspace for your next project.
               </h1>
               <p className="mt-6 max-w-xl text-base leading-7 text-white/60 sm:text-lg">
-                Explore an interactive 3D colony master plan. Click plots, toggle status, search by number, and overlay satellite imagery — all in the browser.
+                Explore an interactive 3D colony master plan. Click plots, toggle status, search by number, and overlay satellite imagery ï¿½ all in the browser.
               </p>
             </div>
           </div>
@@ -97,8 +97,8 @@ export default function SmartLayoutView({ onNavigateHome }) {
                   <Box className="h-10 w-10 text-[#2ec4c1]" />
                 </div>
                 <div>
-                  <p className="text-lg font-semibold text-white">Colony Master Plan — Interactive 3D Layout</p>
-                  <p className="mt-2 text-sm text-white/50">Drag to rotate · Scroll to zoom · Click plots to inspect</p>
+                  <p className="text-lg font-semibold text-white">Colony Master Plan, Interactive 3D Layout</p>
+                  <p className="mt-2 text-sm text-white/50">Drag to rotate, Scroll to zoom, Click plots to inspect</p>
                 </div>
 
                 {/* Feature pills */}

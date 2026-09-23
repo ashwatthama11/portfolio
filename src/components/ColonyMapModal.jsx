@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 import { startColonyMap } from "../colonymap/renderer";
 import { DATA, SOLD_IDS } from "../colonymap/layout";
@@ -9,7 +9,7 @@ function injectColonyStyles() {
   const style = document.createElement("style");
   style.id = "colony-map-styles";
   style.textContent = `
-    :root{--teal:#2ec4c1;--green:#5cc46c;--panel:rgba(24,27,30,.88);--panel-solid:#1a1d20;--line:rgba(255,255,255,.13);--fg:#e8eaed;--muted:#8a9098}
+    :root{--teal:#2ec4c1;--green:#5cc46c;--panel:rgba(24,27,30,.45);--panel-solid:#1a1d20;--line:rgba(255,255,255,.13);--fg:#e8eaed;--muted:#8a9098}
     .cm-app{position:relative;width:100%;height:100%;font-family:system-ui,-apple-system,sans-serif;color:var(--fg);font-size:15px;line-height:1.4;-webkit-font-smoothing:antialiased}
     .cm-app *{box-sizing:border-box}
     .cm-stage{position:relative;width:100%;height:100%;background:#0c0e0c;overflow:hidden}
@@ -18,10 +18,11 @@ function injectColonyStyles() {
     .cm-gattr{position:absolute;left:8px;bottom:1px;font-size:9px;color:rgba(255,255,255,.82);z-index:5;pointer-events:none;text-shadow:0 1px 2px #000}
     #cm-btnMap{font-size:13px;font-weight:700}
     .cm-app button{font-family:inherit;color:inherit;cursor:pointer}
-    .cm-brand{z-index:2;position:absolute;left:14px;top:calc(12px + env(safe-area-inset-top,0px));display:flex;align-items:center;gap:10px;pointer-events:none;max-width:calc(100% - 28px)}
-    .cm-brandMark{width:44px;height:44px;flex:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
-    .cm-brandName{font-size:clamp(20px,6vw,32px);font-weight:800;letter-spacing:.5px;color:var(--teal);text-shadow:0 2px 10px rgba(0,0,0,.6);line-height:1.05}
-    .cm-brandSub{display:block;font-size:11px;font-weight:600;letter-spacing:.14em;color:#8fd9d7;opacity:.85;margin-top:3px}
+    .cm-brand{z-index:2;position:absolute;left:14px;top:calc(12px + env(safe-area-inset-top,0px));display:inline-flex;align-items:center;gap:12px;pointer-events:none;max-width:calc(100% - 72px);background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:6px 14px 6px 8px;border-radius:16px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+    .cm-brandLogoBox{width:42px;height:42px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden;padding:3px}
+    .cm-brandMark{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(0,0,0,.4))}
+    .cm-brandName{font-size:clamp(16px,4vw,22px);font-weight:800;letter-spacing:.5px;color:#FF7A00;text-shadow:0 2px 10px rgba(0,0,0,.6);line-height:1.1;display:block}
+    .cm-brandSub{display:block;font-size:10px;font-weight:700;letter-spacing:.14em;color:#FF7A00;opacity:.85;margin-top:2px}
     .cm-compass{z-index:2;position:absolute;left:14px;top:calc(76px + env(safe-area-inset-top,0px));width:72px;height:72px;border-radius:50%;border:2px solid rgba(255,255,255,.16);background:radial-gradient(circle at 50% 40%,rgba(58,60,62,.9),rgba(24,26,28,.9));box-shadow:0 6px 18px rgba(0,0,0,.45);padding:0;cursor:pointer}
     .cm-dial{position:absolute;inset:0;border-radius:50%}
     .cm-dial i{position:absolute;font-style:normal;font-size:11px;font-weight:800;color:#e8eaed}
@@ -55,8 +56,8 @@ function injectColonyStyles() {
     .cm-toggle{height:52px;border-radius:26px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:0 10px 0 20px;font-size:17px;font-weight:500;min-width:150px}
     .cm-switch{width:50px;height:30px;border-radius:15px;background:#5b5e63;position:relative;flex:none;transition:background .15s}
     .cm-switch::after{content:"";position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .15s}
-    .cm-toggle[aria-checked="true"] .cm-switch{background:var(--green)}
-    .cm-toggle[aria-checked="true"] .cm-switch::after{transform:translateX(20px)}
+    .cm-toggle[aria-checked="true"] .cm-switch{background:#FF7A00}
+    .cm-toggle[aria-checked="true"] .cm-switch::after{transform:translateX(20px)}.cm-toggle[aria-checked="true"]{color:#FF7A00;border-color:rgba(255,122,0,0.4)}
     .cm-wa{flex:1;min-width:0;height:52px;border-radius:26px;display:flex;align-items:center;gap:10px;padding:0 14px;text-decoration:none;color:inherit}
     .cm-wa b{display:block;font-size:15px;font-weight:600;line-height:1.1}
     .cm-wa small{display:block;font-size:12.5px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -108,31 +109,35 @@ export default function ColonyMapModal({ onClose }) {
   }, []);
 
   return (
-    <div style={{position:"fixed",inset:0,zIndex:9999,background:"#0c0e0c",display:"flex",flexDirection:"column",animation:"cmFadeIn 0.25s ease"}}>
+    <div style={{ position: "fixed", inset: 0, zIndex: 9999, background: "#0c0e0c", display: "flex", flexDirection: "column", animation: "cmFadeIn 0.25s ease" }}>
       {/* Close button */}
       <button
         type="button"
         onClick={onClose}
         aria-label="Close 3D layout"
-        style={{position:"absolute",top:14,right:14,zIndex:10001,width:44,height:44,borderRadius:"50%",background:"rgba(18,20,22,0.92)",border:"1px solid rgba(255,255,255,0.18)",backdropFilter:"blur(8px)",display:"grid",placeItems:"center",cursor:"pointer",color:"#e8eaed",boxShadow:"0 4px 16px rgba(0,0,0,0.5)",transition:"background 0.15s"}}
+        style={{ position: "absolute", top: 14, right: 14, zIndex: 10001, width: 44, height: 44, borderRadius: "50%", background: "rgba(18,20,22,0.92)", border: "1px solid rgba(255,255,255,0.18)", backdropFilter: "blur(8px)", display: "grid", placeItems: "center", cursor: "pointer", color: "#e8eaed", boxShadow: "0 4px 16px rgba(0,0,0,0.5)", transition: "background 0.15s" }}
         onMouseEnter={e => e.currentTarget.style.background = "rgba(255,122,0,0.9)"}
         onMouseLeave={e => e.currentTarget.style.background = "rgba(18,20,22,0.92)"}
       >
         <X size={20} />
       </button>
 
-      <div className="cm-app" style={{flex:1,overflow:"hidden"}}>
+      <div className="cm-app" style={{ flex: 1, overflow: "hidden" }}>
         <main className="cm-stage" id="stage" ref={stageRef}>
           <div className="cm-basemap" id="basemap" />
           <div className="cm-brand">
-            <svg className="cm-brandMark" viewBox="0 0 48 48" aria-hidden="true">
-              <path d="M4 12 22 4l6 9-14 9z" fill="#2ec4c1"/>
-              <path d="M26 6l18 6-10 12-8-6z" fill="#1f9e9b"/>
-              <path d="M8 26l14-6 4 12-10 10z" fill="#3fd6d2"/>
-              <path d="M28 24l14 2-8 16-10-6z" fill="#249f9c"/>
-            </svg>
+            <div className="cm-brandLogoBox">
+              <img
+                src="/image/big-logo-white.png"
+                alt="AVA Logo"
+                className="cm-brandMark"
+                onError={(e) => {
+                  e.currentTarget.src = "/images/big-logo-white.png";
+                }}
+              />
+            </div>
             <div>
-              <span className="cm-brandName">COLONY MASTER PLAN</span>
+              <span className="cm-brandName">AVA SMART LAYOUT</span>
               <span className="cm-brandSub">INTERACTIVE 3D LAYOUT</span>
             </div>
           </div>
@@ -149,7 +154,7 @@ export default function ColonyMapModal({ onClose }) {
           </div>
           <div className="cm-infoCard" id="info" hidden>
             <button className="cm-close" id="closeInfo" type="button" aria-label="Clear selection">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
             </button>
             <div className="cm-eyebrow">SELECTED PLOT</div>
             <div className="cm-plotTitle" id="plotTitle">Plot 1</div>
@@ -157,10 +162,10 @@ export default function ColonyMapModal({ onClose }) {
             <button id="toggleSold" className="cm-soldBtn" type="button">Mark as sold</button>
           </div>
           <div className="cm-searchBar" id="searchBar" hidden>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
             <input id="q" inputMode="numeric" autoComplete="off" placeholder="Search plot number" aria-label="Search plot number" />
             <button className="cm-close" id="closeSearch" type="button" aria-label="Close search">
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
             </button>
           </div>
           <div className="cm-err" id="err" hidden></div>
@@ -170,7 +175,7 @@ export default function ColonyMapModal({ onClose }) {
             <div className="cm-panelHead">
               <b>Brochure � original layout drawing</b>
               <button id="closePlan" type="button" aria-label="Close">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
               </button>
             </div>
             <img src="/layout-plan.jpg" alt="Original colony master plan drawing" />
@@ -179,7 +184,7 @@ export default function ColonyMapModal({ onClose }) {
             <div className="cm-panelHead">
               <b>Project info</b>
               <button id="closeInfoPanel" type="button" aria-label="Close">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
               </button>
             </div>
             <div className="cm-infoBody" id="infoBody"></div>
@@ -188,43 +193,43 @@ export default function ColonyMapModal({ onClose }) {
             <div className="cm-row spread">
               <button className="cm-toggle" id="tgZones" type="button" role="switch" aria-checked="false">Zones<span className="cm-switch"></span></button>
               <div className="cm-row">
-                <button className="cm-circle" id="btnMap" type="button" aria-label="Map type" style={{display:"none"}}>OFF</button>
+                <button className="cm-circle" id="btnMap" type="button" aria-label="Map type" style={{ display: "none" }}>OFF</button>
                 <button className="cm-circle" id="btn2d" type="button" aria-label="Toggle 2D / 3D view">2D</button>
                 <button className="cm-circle" id="btnHome" type="button" aria-label="Reset view">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg>
                 </button>
               </div>
             </div>
             <div className="cm-row">
               <button className="cm-toggle" id="tgStatus" type="button" role="switch" aria-checked="false">Status<span className="cm-switch"></span></button>
               <a className="cm-wa" id="waLink" href="#" target="_blank" rel="noopener">
-                <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21l1.65-4.9A9 9 0 1 1 8 19.4z" fill="none" stroke="#25d366" strokeWidth="2" strokeLinejoin="round"/><path d="M9 8.5c.3 2.4 3 5.6 6 6.5l1.4-1.2-1.6-1.3-1 .6c-1-.4-2.1-1.5-2.5-2.5l.7-.9L10.7 8z" fill="#25d366"/></svg>
-                <span style={{minWidth:0}}><b>WhatsApp</b><small id="waText">Inquire project</small></span>
+                <svg width="30" height="30" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21l1.65-4.9A9 9 0 1 1 8 19.4z" fill="none" stroke="#25d366" strokeWidth="2" strokeLinejoin="round" /><path d="M9 8.5c.3 2.4 3 5.6 6 6.5l1.4-1.2-1.6-1.3-1 .6c-1-.4-2.1-1.5-2.5-2.5l.7-.9L10.7 8z" fill="#25d366" /></svg>
+                <span style={{ minWidth: 0 }}><b>WhatsApp</b><small id="waText">Inquire project</small></span>
               </a>
               <button className="cm-circle" id="btnShare" type="button" aria-label="Share">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 14 5-5-5-5"/><path d="M4 20v-7a4 4 0 0 1 4-4h12"/></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 14 5-5-5-5" /><path d="M4 20v-7a4 4 0 0 1 4-4h12" /></svg>
               </button>
             </div>
             <div className="cm-grid3">
               <button className="cm-pillBtn" id="btnGallery" type="button">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>Gallery
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="9" cy="9" r="2" /><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" /></svg>Gallery
               </button>
               <button className="cm-pillBtn" id="btnSearch" type="button">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>Search
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>Search
               </button>
               <button className="cm-pillBtn" id="btnGps" type="button">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>GPS
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3" /><circle cx="12" cy="12" r="7" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3" /></svg>GPS
               </button>
             </div>
             <div className="cm-grid3">
               <button className="cm-pillBtn" id="btnBrochure" type="button">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>Brochure
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 7v14" /><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z" /></svg>Brochure
               </button>
               <button className="cm-pillBtn" id="btnInfo" type="button">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>Info
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg>Info
               </button>
               <button className="cm-pillBtn" id="btnLocate" type="button">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>Locate
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="3 11 22 2 13 21 11 13 3 11" /></svg>Locate
               </button>
             </div>
           </div>
@@ -233,4 +238,5 @@ export default function ColonyMapModal({ onClose }) {
     </div>
   );
 }
+
 
