@@ -81,7 +81,7 @@ export function startColonyMap(DATA, opts) {
       F = H / 2 / Math.tan((FOV * Math.PI) / 360);
       dirty = true;
     }
-    const theme = { bg: "#0c0e0c", shadow: "rgba(0,0,0,0.4)", glow: 0.14 };
+    const theme = { bg: "#0F172A", shadow: "rgba(0,0,0,0.65)", glow: 0.12 };
     let theta = 0.35, phi = 0.95, radius = 52;
     const tgt = { x: 0, z: 0 };
     const cam = { x: 0, y: 0, z: 0 }, Rt = { x: 1, z: 0 }, Up = { x: 0, y: 1, z: 0 }, Fw = { x: 0, y: 0, z: -1 };
@@ -204,7 +204,7 @@ export function startColonyMap(DATA, opts) {
     const SITE = DATA.site.map((p) => P(p[0], p[1]));
     const siteC = centroid(SITE);
     const TER = [];
-    const tones = ["#181a18", "#1f221f", "#262825", "#1a231a", "#1e281c", "#2c2e2b", "#141614"];
+    const tones = ["#0d1525", "#111827", "#0f1e33", "#0c1a2e", "#131f30", "#162035", "#0a1220"];
     const siteBig = scaleAbout(SITE, 1.04);
     for (let i = 0; i < 360; i++) {
       const x = siteC[0] + rr(-1, 1) * 40, z = siteC[1] + rr(-1, 1) * 25; if (inPoly(x, z, siteBig)) continue;
@@ -212,14 +212,14 @@ export function startColonyMap(DATA, opts) {
     }
     for (let i = 0; i < 46; i++) {
       const x = siteC[0] + rr(-1, 1) * 40, z = siteC[1] + rr(-1, 1) * 25; if (inPoly(x, z, siteBig)) continue;
-      TER.push({ pts: to3(ell(x, z, rr(2, 5), rr(1.5, 4), 12, 0.3), -0.035), fill: "rgba(30,46,26,0.55)", stroke: false });
+      TER.push({ pts: to3(ell(x, z, rr(2, 5), rr(1.5, 4), 12, 0.3), -0.035), fill: "rgba(15,35,70,0.40)", stroke: false });
     }
     const G = [];
-    G.push({ pts: to3(SITE, 0.02), fill: "#3a3b3f", stroke: "#4d4e54", lw: 1.5 });
+    G.push({ pts: to3(SITE, 0.02), fill: "#1F2937", stroke: "#273547", lw: 1.5 });
 
     // ---------- plots ----------
     const ZB = [46, 67, 90, 111, 135, 159, 183, 210, 234, 258, 999];
-    const ZP = ["#7aa2f7", "#f7768e", "#9ece6a", "#e0af68", "#bb9af7", "#7dcfff", "#ff9e64", "#73daca", "#c0caf5", "#e5c07b", "#56b6c2"];
+    const ZP = ["#38BDF8", "#818CF8", "#34D399", "#FB923C", "#A78BFA", "#22D3EE", "#F472B6", "#4ADE80", "#60A5FA", "#FBBF24", "#2DD4BF"];
     const zoneOf = (id) => { let z = 0; while (id > ZB[z]) z++; return z; };
     const plots = DATA.plots.map((d) => {
       const raw = []; for (let i = 0; i < d[1].length; i += 2) raw.push(P(d[1][i], d[1][i + 1]));
@@ -242,9 +242,9 @@ export function startColonyMap(DATA, opts) {
     // ---------- open space + amenities ----------
     const items = [], zoneLabels = [];
     const parkPoly = DATA.park.map((p) => P(p[0], p[1])), parkC = centroid(parkPoly);
-    G.push({ pts: to3(parkPoly, 0.05), fill: "#54682f", stroke: "#465a28" });
-    G.push({ pts: to3(scaleAbout(parkPoly, 0.9), 0.052), fill: "rgba(120,150,70,0.22)", stroke: false });
-    zoneLabels.push(["OPEN SPACE", parkC, 0.55, "rgba(196,214,150,0.85)"]);
+    G.push({ pts: to3(parkPoly, 0.05), fill: "#1a3a28", stroke: "#22503a" });
+    G.push({ pts: to3(scaleAbout(parkPoly, 0.9), 0.052), fill: "rgba(52,211,153,0.07)", stroke: false });
+    zoneLabels.push(["OPEN SPACE", parkC, 0.55, "rgba(134,239,172,0.90)"]);
     function addBox(cx, cz, w, d, y0, h, color, rot, roof) {
       const parts = [{ cx: cx, cz: cz, w: w, d: d, y0: y0, y1: y0 + h, color: color, rot: rot || 0 }];
       if (roof) parts.push({ cx: cx, cz: cz, w: w + roof.over, d: d + roof.over, w2: w * roof.top, d2: d * roof.topd, y0: y0 + h, y1: y0 + h + roof.h, color: roof.color, rot: rot || 0, cap: roof.color });
@@ -252,23 +252,23 @@ export function startColonyMap(DATA, opts) {
     }
     const amenByC = DATA.amen.map((poly) => ({ w: poly.map((p) => P(p[0], p[1])), c: centroid(poly) }));
     const findAm = (x, y) => amenByC.reduce((b, a) => (Math.hypot(a.c[0] - x, a.c[1] - y) < Math.hypot(b.c[0] - x, b.c[1] - y) ? a : b));
-    const paveAmenity = (a) => { G.push({ pts: to3(a.w, 0.05), fill: "#4a4b51", stroke: "#5c5d64" }); G.push({ pts: to3(scaleAbout(a.w, 0.9), 0.053), fill: "#54555c", stroke: false }); };
-    const AL = "rgba(190,196,204,0.8)", roofG = (h) => ({ over: 0.2, top: 0.4, topd: 0.28, h: h, color: "#c7c8cc" });
-    const a1 = findAm(697, 223); paveAmenity(a1); let q = P(697, 200); addBox(q[0], q[1], 1.6, 1.15, 0.05, 0.5, "#dcdde0", 0, roofG(0.26)); zoneLabels.push(["AMENITY SPACE", P(697, 262), 0.2, AL]);
+    const paveAmenity = (a) => { G.push({ pts: to3(a.w, 0.05), fill: "#1e2d3d", stroke: "#263547" }); G.push({ pts: to3(scaleAbout(a.w, 0.9), 0.053), fill: "#243040", stroke: false }); };
+    const AL = "rgba(148,163,184,0.90)", roofG = (h) => ({ over: 0.2, top: 0.4, topd: 0.28, h: h, color: "#475569" });
+    const a1 = findAm(697, 223); paveAmenity(a1); let q = P(697, 200); addBox(q[0], q[1], 1.6, 1.15, 0.05, 0.5, "#334155", 0, roofG(0.26)); zoneLabels.push(["AMENITY SPACE", P(697, 262), 0.2, AL]);
     const a2 = findAm(692, 466); paveAmenity(a2);
     const cq = P(692, 466), cw = 1.55, cl = 2.9;
-    G.push({ pts: to3(rectCorners(cq[0], cq[1], cw + 0.35, cl + 0.35, 0), 0.056), fill: "#2c5f96" });
-    G.push({ pts: to3(rectCorners(cq[0], cq[1], cw, cl, 0), 0.06), fill: "#3a7bc0" });
-    [[0, 0, cw, 0.04], [0, cl / 2, cw, 0.04], [0, -cl / 2, cw, 0.04], [0, 0, 0.04, cl], [cw / 2, 0, 0.04, cl], [-cw / 2, 0, 0.04, cl]].forEach((l) => G.push({ pts: to3(rectCorners(cq[0] + l[0], cq[1] + l[1], l[2], l[3], 0), 0.064), fill: "#f4f7fa", stroke: false }));
-    q = P(692, 396); addBox(q[0], q[1], 1.0, 0.62, 0.05, 0.34, "#d6d7da", 0, roofG(0.2));
+    G.push({ pts: to3(rectCorners(cq[0], cq[1], cw + 0.35, cl + 0.35, 0), 0.056), fill: "#0e2240" });
+    G.push({ pts: to3(rectCorners(cq[0], cq[1], cw, cl, 0), 0.06), fill: "#163b6b" });
+    [[0, 0, cw, 0.04], [0, cl / 2, cw, 0.04], [0, -cl / 2, cw, 0.04], [0, 0, 0.04, cl], [cw / 2, 0, 0.04, cl], [-cw / 2, 0, 0.04, cl]].forEach((l) => G.push({ pts: to3(rectCorners(cq[0] + l[0], cq[1] + l[1], l[2], l[3], 0), 0.064), fill: "rgba(56,189,248,0.12)", stroke: false }));
+    q = P(692, 396); addBox(q[0], q[1], 1.0, 0.62, 0.05, 0.34, "#334155", 0, roofG(0.2));
     zoneLabels.push(["BASKETBALL COURT", P(692, 545), 0.18, AL]);
     const a3 = findAm(1245, 722); paveAmenity(a3);
-    [[1185, 735, 2.3], [1310, 735, 2.1]].forEach((l) => G.push({ pts: to3(rectCorners(P(l[0], l[1])[0], P(l[0], l[1])[1], l[2], 2.5, 0), 0.056), fill: "#54682f", stroke: false }));
-    q = P(1246, 686); addBox(q[0], q[1], 3.3, 1.7, 0.05, 0.62, "#e2e3e6", 0, roofG(0.34));
-    q = P(1246, 712); addBox(q[0], q[1], 1.1, 0.55, 0.05, 0.42, "#d3d4d8", 0, roofG(0.2));
+    [[1185, 735, 2.3], [1310, 735, 2.1]].forEach((l) => G.push({ pts: to3(rectCorners(P(l[0], l[1])[0], P(l[0], l[1])[1], l[2], 2.5, 0), 0.056), fill: "#1a3a28", stroke: false }));
+    q = P(1246, 686); addBox(q[0], q[1], 3.3, 1.7, 0.05, 0.62, "#334155", 0, roofG(0.34));
+    q = P(1246, 712); addBox(q[0], q[1], 1.1, 0.55, 0.05, 0.42, "#263447", 0, roofG(0.2));
     zoneLabels.push(["AMENITY SPACE", P(1246, 780), 0.22, AL]);
     const a4 = findAm(105, 515); paveAmenity(a4); zoneLabels.push(["AMENITY", P(105, 515), 0.16, AL]);
-    [[172, 121, 216, 176], [1400, 138, 1450, 180]].forEach((s) => { const c0 = P(s[0], s[1]), c1 = P(s[2], s[3]); G.push({ pts: to3([[c0[0], c0[1]], [c1[0], c0[1]], [c1[0], c1[1]], [c0[0], c1[1]]], 0.05), fill: "#4a4b51", stroke: "#5c5d64" }); });
+    [[172, 121, 216, 176], [1400, 138, 1450, 180]].forEach((s) => { const c0 = P(s[0], s[1]), c1 = P(s[2], s[3]); G.push({ pts: to3([[c0[0], c0[1]], [c1[0], c0[1]], [c1[0], c1[1]], [c0[0], c1[1]]], 0.05), fill: "#1e2d3d", stroke: "#263547" }); });
 
     // ---------- road markings + names ----------
     const dashW = [], roadLabels = [];
@@ -303,27 +303,34 @@ export function startColonyMap(DATA, opts) {
     let drawOrder = [], selectedId = null, hoveredId = null, statusMode = false, zoneMode = false;
     function lighten(hex, k) { const n = parseInt(hex.slice(1), 16), c = (v) => Math.min(255, Math.round(v * k)).toString(16).padStart(2, "0"); return "#" + c((n >> 16) & 255) + c((n >> 8) & 255) + c(n & 255); }
     function plotTone(e) {
-      if (e.id === selectedId) return "#1e90ff";
-      if (statusMode) return sold.has(e.id) ? "#ffcf33" : "#5cc46c";
+      if (e.id === selectedId) return "#F97316";
+      if (statusMode) return sold.has(e.id) ? "#EF4444" : "#E2E8F0";
       if (zoneMode) return ZP[e.zone % ZP.length];
-      return "#b3a98b";
+      return "#CBD5E1";
     }
     function plotInk(e) {
-      if (e.id === selectedId) return "#ffffff";
-      if (statusMode) return sold.has(e.id) ? "#5a4300" : "#0c3d17";
-      if (zoneMode) return "#101820";
-      return "#3b3626";
+      if (e.id === selectedId) return "#F8FAFC";
+      if (statusMode) return sold.has(e.id) ? "#F8FAFC" : "#1E293B";
+      if (zoneMode) return "#0F172A";
+      return "#1E293B";
     }
     function drawPlot(e) {
       const sel = e.id === selectedId, hov = e.id === hoveredId && !sel;
-      const base = hov ? lighten(plotTone(e), 1.14) : plotTone(e);
+      const base = hov ? lighten(plotTone(e), 1.08) : plotTone(e);
+      const border = sel ? "#FB923C" : hov ? "#38BDF8" : (statusMode && sold.has(e.id)) ? "rgba(239,68,68,0.55)" : "#94A3B8";
       const y0 = 0.03, y1 = 0.1 + e.y;
       e.polys.length = 0;
-      const faces = drawPrism(e.pts, y0, y1, base, "rgba(0,0,0,0.35)");
+      const faces = drawPrism(e.pts, y0, y1, base, border);
       faces.forEach((f) => e.polys.push(f));
       if (faces.length) { const tp = faces[faces.length - 1]; let sx = 0, sy = 0; tp.forEach((p) => { sx += p[0]; sy += p[1]; }); e.sc = [sx / tp.length, sy / tp.length]; }
-      const top = shade(base, 0.98);
-      fillPoly(to3(scaleAbout(e.pts, 0.95), y1 + 0.004), top, top, Math.max(0.6, Math.min(2, (0.03 * F) / radius)));
+      // Top face with subtle border
+      const topCol = sel ? "#F97316" : hov ? lighten(base, 1.05) : base;
+      const topBorder = sel ? "#FB923C" : hov ? "#38BDF8" : "#94A3B8";
+      fillPoly(to3(scaleAbout(e.pts, 0.97), y1 + 0.003), topCol, topBorder, Math.max(0.7, Math.min(2.2, (0.035 * F) / radius)));
+      // Selected glow ring (orange ~15% opacity)
+      if (sel) fillPoly(to3(scaleAbout(e.pts, 1.05), y1 + 0.001), "rgba(249,115,22,0.15)", false);
+      // Hover ring (sky-blue ~10% opacity)
+      if (hov) fillPoly(to3(scaleAbout(e.pts, 1.03), y1 + 0.001), "rgba(56,189,248,0.10)", false);
       if (!sel) {
         const oe = ori(e.ex);
         flatText(String(e.id), e.cx, y1 + 0.02, e.cz, oe, [-oe[1], oe[0]], e.size, 600, plotInk(e));
@@ -369,9 +376,9 @@ export function startColonyMap(DATA, opts) {
       const spanEz = maxEz - minEz;
 
       // Font sizing: compact, elegant, perfectly matching Image 2
-      const szNum = Math.max(0.06, Math.min(0.18, spanEz * 0.20, spanOe * 0.24));
-      const szM2 = Math.max(0.035, Math.min(0.09, spanEz * 0.10, spanOe * 0.15));
-      const szFt = Math.max(0.045, Math.min(0.12, spanEz * 0.13, spanOe * 0.18));
+      const szNum = Math.max(0.08, Math.min(0.20, spanEz * 0.22, spanOe * 0.26));
+      const szM2 = Math.max(0.045, Math.min(0.10, spanEz * 0.11, spanOe * 0.16));
+      const szFt = Math.max(0.055, Math.min(0.13, spanEz * 0.14, spanOe * 0.19));
 
       // Vertical positions along upDir (Top: Plot number, Middle: m², Bottom: ft²):
       const yNum = spanEz * 0.16;
@@ -380,11 +387,11 @@ export function startColonyMap(DATA, opts) {
 
       if (dimInfo) {
         // Line 1: Plot Number (Bold white)
-        flatText(String(e.id), e.cx + upV[0] * yNum, y1 + 0.005, e.cz + upV[1] * yNum, oe, ez, szNum, 800, "#ffffff");
-        // Line 2: Area in m² (e.g. 92.81 m²)
-        flatText(dimInfo.areaM2.toFixed(2) + " m²", e.cx + upV[0] * yM2, y1 + 0.005, e.cz + upV[1] * yM2, oe, ez, szM2, 500, "rgba(255,255,255,0.88)");
-        // Line 3: Area in ft² (e.g. 999 ft²)
-        flatText(dimInfo.areaSqFt.toLocaleString() + " ft²", e.cx + upV[0] * yFt, y1 + 0.005, e.cz + upV[1] * yFt, oe, ez, szFt, 700, "#ffffff");
+        flatText(String(e.id), e.cx + upV[0] * yNum, y1 + 0.005, e.cz + upV[1] * yNum, oe, ez, szNum, 800, "#F8FAFC");
+        // Line 2: Area in m²
+        flatText(dimInfo.areaM2.toFixed(2) + " m²", e.cx + upV[0] * yM2, y1 + 0.005, e.cz + upV[1] * yM2, oe, ez, szM2, 500, "rgba(226,232,240,0.90)");
+        // Line 3: Area in ft²
+        flatText(dimInfo.areaSqFt.toLocaleString() + " ft²", e.cx + upV[0] * yFt, y1 + 0.005, e.cz + upV[1] * yFt, oe, ez, szFt, 700, "rgba(248,250,252,0.95)");
       } else {
         flatText(String(e.id), e.cx, y1 + 0.005, e.cz, oe, ez, szNum, 800, "#ffffff");
       }
@@ -393,9 +400,9 @@ export function startColonyMap(DATA, opts) {
       const pts = e.pts;
       const n = pts.length;
       const minSpan = Math.min(spanOe, spanEz);
-      const offDist = Math.max(0.03, Math.min(0.065, minSpan * 0.09));
-      const tickLen = Math.max(0.04, Math.min(0.08, minSpan * 0.11));
-      const szDim = Math.max(0.04, Math.min(0.08, minSpan * 0.11));
+      const offDist = Math.max(0.04, Math.min(0.075, minSpan * 0.10));
+      const tickLen = Math.max(0.05, Math.min(0.09, minSpan * 0.12));
+      const szDim = Math.max(0.045, Math.min(0.09, minSpan * 0.12));
 
       for (let i = 0; i < n; i++) {
         const p0 = pts[i];
@@ -423,9 +430,9 @@ export function startColonyMap(DATA, opts) {
         const tB0 = [bOff[0] - nx * (tickLen * 0.5), y1 + 0.004, bOff[2] - nz * (tickLen * 0.5)];
         const tB1 = [bOff[0] + nx * (tickLen * 0.5), y1 + 0.004, bOff[2] + nz * (tickLen * 0.5)];
 
-        // Draw extension ticks (crisp solid white)
+        // Draw extension ticks (clean white)
         ctx.setLineDash([]);
-        ctx.strokeStyle = "rgba(255,255,255,0.95)";
+        ctx.strokeStyle = "rgba(255,255,255,0.92)";
         ctx.lineWidth = 1.2;
         ctx.lineCap = "butt";
         ctx.beginPath();
@@ -446,7 +453,7 @@ export function startColonyMap(DATA, opts) {
 
         // Draw dashed lines before and after gap
         ctx.setLineDash([4, 3]);
-        ctx.strokeStyle = "rgba(255,255,255,0.85)";
+        ctx.strokeStyle = "rgba(255,255,255,0.78)";
         ctx.lineWidth = 1.2;
         ctx.lineCap = "butt";
         ctx.beginPath();
@@ -466,16 +473,16 @@ export function startColonyMap(DATA, opts) {
       }
     }
 
-    const MAPA = { "#3a3b3f": "rgba(44,45,49,0.84)", "#54682f": "rgba(84,104,47,0.6)", "#4a4b51": "rgba(66,66,72,0.86)", "#54555c": "rgba(78,78,86,0.7)" };
+    const MAPA = { "#1F2937": "rgba(31,41,55,0.90)", "#1a3a28": "rgba(26,58,40,0.65)", "#1e2d3d": "rgba(30,45,61,0.90)", "#243040": "rgba(36,48,64,0.75)" };
     function render() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.lineJoin = "round"; ctx.setLineDash([]);
       if (mapOn) ctx.clearRect(0, 0, W, H); else { ctx.fillStyle = theme.bg; ctx.fillRect(0, 0, W, H); }
       if (!mapOn) for (let i = 0; i < TER.length; i++) { const t = TER[i]; fillPoly(t.pts, t.fill, t.stroke === false ? false : t.fill, 0.5); }
       for (let i = 0; i < G.length; i++) { const g = G[i]; const f = mapOn ? MAPA[g.fill] || g.fill : g.fill; fillPoly(g.pts, f, g.stroke === false ? false : g.stroke || f, g.lw || 1); }
-      ctx.lineCap = "butt"; ctx.strokeStyle = "rgba(255,255,255,0.55)"; ctx.lineWidth = Math.max(1, (0.06 * F) / radius); ctx.beginPath();
+      ctx.lineCap = "butt"; ctx.strokeStyle = "rgba(156,163,175,0.50)"; ctx.lineWidth = Math.max(1, (0.06 * F) / radius); ctx.beginPath();
       for (let i = 0; i < dashW.length; i++) segPath(dashW[i][0], dashW[i][1]);
       ctx.stroke();
-      roadLabels.forEach((r) => { const oe = ori(r.ex); flatText(r.text, r.x, 0.06, r.z, oe, [-oe[1], oe[0]], 0.3, 600, "rgba(214,218,224,0.78)"); });
+      roadLabels.forEach((r) => { const oe = ori(r.ex); flatText(r.text, r.x, 0.06, r.z, oe, [-oe[1], oe[0]], 0.3, 500, "rgba(148,163,184,0.80)"); });
       zoneLabels.forEach((z) => { const oe = ori([1, 0]); flatText(z[0], z[1][0], 0.1, z[1][1], oe, [-oe[1], oe[0]], z[2], 700, z[3]); });
       ctx.fillStyle = theme.shadow;
       items.forEach((it) => { if (it.kind === "bld") frustumShadow(it.parts[0]); });
@@ -501,10 +508,18 @@ export function startColonyMap(DATA, opts) {
           ctx.fillStyle = "#fff8d6"; ctx.beginPath(); ctx.arc(hx, hy, Math.max(1.2, 0.075 * k), 0, 6.2832); ctx.fill();
         }
       });
-      // Selected plot dimension overlay (rendered on top so never occluded)
+      // ── Spotlight effect: darken everything, then re-draw selected plot on top
       if (selectedId != null) {
         const selPlot = byId.get(selectedId);
-        if (selPlot) drawSelectedPlotOverlay(selPlot);
+        if (selPlot) {
+          // Dark overlay across the whole canvas
+          ctx.fillStyle = "rgba(0,0,0,0.58)";
+          ctx.fillRect(0, 0, W, H);
+          // Re-draw the selected plot on top so it appears bright and isolated
+          drawPlot(selPlot);
+          // Dimension overlay on top of that
+          drawSelectedPlotOverlay(selPlot);
+        }
       }
       // compass + 2D/3D label follow the camera
       const hf = Math.hypot(Fw.x, Fw.z) || 1, rot = Math.atan2(-Rt.z, -Fw.z / hf);
@@ -529,8 +544,55 @@ export function startColonyMap(DATA, opts) {
       $("waText").textContent = selectedId != null ? "Inquire plot " + selectedId : "Inquire project";
       $("waLink").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Hi, I'm interested in " + (selectedId != null ? "plot " + selectedId + " of " : "") + PROJECT);
     }
-    function focusPlot(e) { anim = { tx: e.cx, tz: e.cz, r: radius > 3 }; }
+    function startCameraAnim(target, duration = 650) {
+      const t0 = performance.now();
+      const from = { tx: tgt.x, tz: tgt.z, r: radius, th: theta, ph: phi };
+      let dTh = (target.th != null ? target.th : from.th) - from.th;
+      dTh = Math.atan2(Math.sin(dTh), Math.cos(dTh));
+      anim = {
+        t0,
+        dur: duration,
+        from,
+        to: {
+          tx: target.tx != null ? target.tx : from.tx,
+          tz: target.tz != null ? target.tz : from.tz,
+          r: target.r != null ? target.r : from.r,
+          ph: target.ph != null ? target.ph : from.ph,
+          th: from.th + dTh
+        }
+      };
+      dirty = true;
+    }
+    function focusPlot(e) {
+      const port = W / H < 1.1;
+      let minX = 1e9, maxX = -1e9, minZ = 1e9, maxZ = -1e9;
+      for (let i = 0; i < e.pts.length; i++) {
+        const px = e.pts[i][0], pz = e.pts[i][1];
+        if (px < minX) minX = px; if (px > maxX) maxX = px;
+        if (pz < minZ) minZ = pz; if (pz > maxZ) maxZ = pz;
+      }
+      const span = Math.max(maxX - minX, maxZ - minZ);
+      const paddedSpan = span + 1.1;
+      let desiredR = paddedSpan / 0.36;
+      desiredR = Math.max(MIN_R + 1.0, Math.min(15, desiredR));
+      if (port) desiredR = Math.max(11, desiredR * 1.25);
+
+      // Top isometric view (phi 0.24 rad = ~76° elevation):
+      // Maximizes legibility of dimension lines and area text while retaining the 3D elevation depth
+      const is2d = phi < 0.15;
+      const targetPhi = is2d ? 0.02 : 0.24;
+      const targetTheta = port ? -1.5 : 0;
+
+      startCameraAnim({
+        tx: e.cx,
+        tz: e.cz,
+        r: desiredR,
+        ph: targetPhi,
+        th: targetTheta
+      }, 700);
+    }
     function setSelected(id) {
+      const prevId = selectedId;
       selectedId = id; info.hidden = id == null;
       if (id != null) {
         plotTitle.textContent = "Plot " + id;
@@ -556,6 +618,8 @@ export function startColonyMap(DATA, opts) {
         }
         const pe = byId.get(id);
         if (pe) focusPlot(pe);
+      } else if (prevId != null) {
+        startCameraAnim(fitView(phi < 0.15), 700);
       }
       updateWa(); dirty = true;
     }
@@ -570,10 +634,10 @@ export function startColonyMap(DATA, opts) {
     function setToggle(btn, on) { btn.setAttribute("aria-checked", on ? "true" : "false"); }
     on($("tgStatus"), "click", () => { statusMode = !statusMode; setToggle($("tgStatus"), statusMode); $("legend").hidden = !statusMode; dirty = true; });
     on($("tgZones"), "click", () => { zoneMode = !zoneMode; setToggle($("tgZones"), zoneMode); dirty = true; });
-    on(btn2d, "click", () => { anim = fitView(phi >= 0.15); });
-    on($("btnHome"), "click", () => { anim = fitView(false); });
-    on($("btnLocate"), "click", () => { const pe = selectedId != null ? byId.get(selectedId) : null; if (pe) focusPlot(pe); else anim = fitView(false); });
-    on($("compass"), "click", () => { anim = { th: 0 }; });
+    on(btn2d, "click", () => { startCameraAnim(fitView(phi >= 0.15), 650); });
+    on($("btnHome"), "click", () => { startCameraAnim(fitView(false), 700); });
+    on($("btnLocate"), "click", () => { const pe = selectedId != null ? byId.get(selectedId) : null; if (pe) focusPlot(pe); else startCameraAnim(fitView(false), 700); });
+    on($("compass"), "click", () => { startCameraAnim({ th: 0 }, 550); });
     on($("btnSearch"), "click", () => { $("searchBar").hidden = false; qEl.focus(); });
     on($("closeSearch"), "click", () => { $("searchBar").hidden = true; });
     on(qEl, "keydown", (e) => {
@@ -697,12 +761,26 @@ export function startColonyMap(DATA, opts) {
       raf = requestAnimationFrame(frame);
       const dt = Math.min((now - last) / 1000, 0.05); last = now; const k = Math.min(dt * 8, 1);
       if (anim) {
-        const k2 = Math.min(dt * 5, 1); let done = true;
-        if (anim.tx != null) { tgt.x += (anim.tx - tgt.x) * k2; tgt.z += (anim.tz - tgt.z) * k2; if (Math.abs(anim.tx - tgt.x) > 0.02 || Math.abs(anim.tz - tgt.z) > 0.02) done = false; }
-        if (anim.r != null) { radius += (anim.r - radius) * k2; if (Math.abs(anim.r - radius) > 0.15) done = false; }
-        if (anim.th != null) { let d = anim.th - theta; d = Math.atan2(Math.sin(d), Math.cos(d)); theta += d * k2; if (Math.abs(d) > 0.01) done = false; }
-        if (anim.ph != null) { phi += (anim.ph - phi) * k2; if (Math.abs(anim.ph - phi) > 0.01) done = false; }
-        updateCam(); if (done) anim = null;
+        if (anim.dur) {
+          const elapsed = (now - anim.t0) / anim.dur;
+          const t = Math.min(1, Math.max(0, elapsed));
+          // Cubic ease-out: 1 - (1-t)^3
+          const ease = 1 - Math.pow(1 - t, 3);
+          tgt.x = anim.from.tx + (anim.to.tx - anim.from.tx) * ease;
+          tgt.z = anim.from.tz + (anim.to.tz - anim.from.tz) * ease;
+          radius = anim.from.r + (anim.to.r - anim.from.r) * ease;
+          phi = anim.from.ph + (anim.to.ph - anim.from.ph) * ease;
+          theta = anim.from.th + (anim.to.th - anim.from.th) * ease;
+          updateCam();
+          if (t >= 1) anim = null;
+        } else {
+          const k2 = Math.min(dt * 5, 1); let done = true;
+          if (anim.tx != null) { tgt.x += (anim.tx - tgt.x) * k2; tgt.z += (anim.tz - tgt.z) * k2; if (Math.abs(anim.tx - tgt.x) > 0.02 || Math.abs(anim.tz - tgt.z) > 0.02) done = false; }
+          if (anim.r != null) { radius += (anim.r - radius) * k2; if (Math.abs(anim.r - radius) > 0.15) done = false; }
+          if (anim.th != null) { let d = anim.th - theta; d = Math.atan2(Math.sin(d), Math.cos(d)); theta += d * k2; if (Math.abs(d) > 0.01) done = false; }
+          if (anim.ph != null) { phi += (anim.ph - phi) * k2; if (Math.abs(anim.ph - phi) > 0.01) done = false; }
+          updateCam(); if (done) anim = null;
+        }
       }
       for (let i = 0; i < plots.length; i++) {
         const e = plots[i], target = e.id === selectedId ? 0.14 : e.id === hoveredId ? 0.05 : 0.0;

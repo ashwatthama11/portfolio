@@ -9,10 +9,10 @@ function injectColonyStyles() {
   const style = document.createElement("style");
   style.id = "colony-map-styles";
   style.textContent = `
-    :root{--teal:#2ec4c1;--green:#5cc46c;--panel:rgba(24,27,30,.45);--panel-solid:#1a1d20;--line:rgba(255,255,255,.13);--fg:#e8eaed;--muted:#8a9098}
+    :root{--teal:#38BDF8;--green:#34D399;--panel:rgba(255,255,255,0.07);--panel-solid:#0F172A;--line:rgba(255,255,255,0.10);--fg:#E2E8F0;--muted:#94A3B8}
     .cm-app{position:relative;width:100%;height:100%;font-family:system-ui,-apple-system,sans-serif;color:var(--fg);font-size:15px;line-height:1.4;-webkit-font-smoothing:antialiased}
     .cm-app *{box-sizing:border-box}
-    .cm-stage{position:relative;width:100%;height:100%;background:#0c0e0c;overflow:hidden}
+    .cm-stage{position:relative;width:100%;height:100%;background:#0F172A;overflow:hidden}
     .cm-stage canvas{display:block;touch-action:none;position:absolute;left:0;top:0;z-index:1}
     .cm-basemap{position:absolute;left:0;top:0;transform-origin:0 0;z-index:0;pointer-events:none;display:none;filter:brightness(.62) saturate(.88);-webkit-mask-image:radial-gradient(closest-side,#000 60%,transparent 100%);mask-image:radial-gradient(closest-side,#000 60%,transparent 100%);will-change:transform}
     .cm-gattr{position:absolute;left:8px;bottom:1px;font-size:9px;color:rgba(255,255,255,.82);z-index:5;pointer-events:none;text-shadow:0 1px 2px #000}
@@ -35,15 +35,15 @@ function injectColonyStyles() {
     .cm-legend[hidden]{display:none}
     .cm-legend div{display:flex;align-items:center;gap:8px}
     .cm-swatch{width:12px;height:12px;border-radius:4px}
-    .cm-swatch.avail{background:#5cc46c}.cm-swatch.soldsw{background:#ffcf33}.cm-swatch.sel{background:#1e90ff}
-    .cm-infoCard{position:absolute;right:12px;top:calc(12px + env(safe-area-inset-top,0px));width:210px;padding:14px;border-radius:16px;background:rgba(18,20,22,.92);backdrop-filter:blur(8px);box-shadow:0 16px 45px rgba(0,0,0,.4);z-index:4}
+    .cm-swatch.avail{background:#E2E8F0}.cm-swatch.soldsw{background:#EF4444}.cm-swatch.sel{background:#F97316}
+    .cm-infoCard{position:absolute;right:12px;top:calc(12px + env(safe-area-inset-top,0px));width:210px;padding:14px;border-radius:16px;background:rgba(15,23,42,0.95);backdrop-filter:blur(12px);box-shadow:0 16px 45px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,0.08);z-index:4}
     .cm-infoCard[hidden],.cm-searchBar[hidden],.cm-planPanel[hidden],.cm-infoPanel[hidden],.cm-toast[hidden],.cm-err[hidden]{display:none}
     .cm-close{position:absolute;right:8px;top:8px;border:0;background:transparent;color:#9db0c4;padding:4px;display:grid;place-items:center}
-    .cm-eyebrow{font-size:9px;letter-spacing:.13em;color:#77b5ff;font-weight:700}
+    .cm-eyebrow{font-size:9px;letter-spacing:.13em;color:#94A3B8;font-weight:700}
     .cm-plotTitle{font-size:24px;font-weight:800;margin:3px 0 10px}
     .cm-statusRow{margin-bottom:10px}
     .cm-pill{display:inline-block;padding:4px 11px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.03em}
-    .cm-pill.avail{background:rgba(92,196,108,.2);color:#8fe09b}.cm-pill.sold{background:rgba(255,207,51,.2);color:#ffd85a}
+    .cm-pill.avail{background:rgba(52,211,153,.18);color:#6ee7b7}.cm-pill.sold{background:rgba(239,68,68,.18);color:#fca5a5}
     .cm-soldBtn{width:100%;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.08);font-weight:600;font-size:12px}
     .cm-searchBar{position:absolute;left:50%;top:calc(12px + env(safe-area-inset-top,0px));transform:translateX(-50%);width:min(420px,calc(100% - 24px));height:52px;border-radius:26px;background:var(--panel-solid);box-shadow:0 12px 40px rgba(0,0,0,.5);display:flex;align-items:center;gap:10px;padding:0 10px 0 18px;z-index:6;border:1px solid var(--line)}
     .cm-searchBar input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--fg);font-size:16px;font-family:inherit}
@@ -56,8 +56,8 @@ function injectColonyStyles() {
     .cm-toggle{height:52px;border-radius:26px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:0 10px 0 20px;font-size:17px;font-weight:500;min-width:150px}
     .cm-switch{width:50px;height:30px;border-radius:15px;background:#5b5e63;position:relative;flex:none;transition:background .15s}
     .cm-switch::after{content:"";position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .15s}
-    .cm-toggle[aria-checked="true"] .cm-switch{background:#FF7A00}
-    .cm-toggle[aria-checked="true"] .cm-switch::after{transform:translateX(20px)}.cm-toggle[aria-checked="true"]{color:#FF7A00;border-color:rgba(255,122,0,0.4)}
+    .cm-toggle[aria-checked="true"] .cm-switch{background:#F97316}
+    .cm-toggle[aria-checked="true"] .cm-switch::after{transform:translateX(20px)}.cm-toggle[aria-checked="true"]{color:#F97316;border-color:rgba(249,115,22,0.35)}
     .cm-wa{flex:1;min-width:0;height:52px;border-radius:26px;display:flex;align-items:center;gap:10px;padding:0 14px;text-decoration:none;color:inherit}
     .cm-wa b{display:block;font-size:15px;font-weight:600;line-height:1.1}
     .cm-wa small{display:block;font-size:12.5px;color:var(--muted);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -109,7 +109,7 @@ export default function ColonyMapModal({ onClose }) {
   }, []);
 
   return (
-    <div style={{ position: "fixed", inset: 0, zIndex: 9999, background: "#0c0e0c", display: "flex", flexDirection: "column", animation: "cmFadeIn 0.25s ease" }}>
+    <div style={{ position: "fixed", inset: 0, zIndex: 9999, background: "#0F172A", display: "flex", flexDirection: "column", animation: "cmFadeIn 0.25s ease" }}>
       {/* Close button */}
       <button
         type="button"
