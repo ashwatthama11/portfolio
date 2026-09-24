@@ -3,6 +3,8 @@
  * Expects the markup in components/ColonyMap.jsx to be mounted (uses its element ids).
  */
 
+import { PLOT_DIMENSIONS } from "./plotDimensions.js";
+
 export function startColonyMap(DATA, opts) {
   opts = opts || {};
   const offs = [];
@@ -321,9 +323,11 @@ export function startColonyMap(DATA, opts) {
       faces.forEach((f) => e.polys.push(f));
       if (faces.length) { const tp = faces[faces.length - 1]; let sx = 0, sy = 0; tp.forEach((p) => { sx += p[0]; sy += p[1]; }); e.sc = [sx / tp.length, sy / tp.length]; }
       const top = shade(base, 0.98);
-      fillPoly(to3(scaleAbout(e.pts, 0.95), y1 + 0.004), top, top, Math.max(0.6, Math.min(3, (0.04 * F) / radius)));
-      if (sel) { ctx.setLineDash([5, 4]); fillPoly(to3(scaleAbout(e.pts, 0.985), y1 + 0.006), "rgba(255,255,255,0)", "#ffffff", 1.6); ctx.setLineDash([]); }
-      const oe = ori(e.ex); flatText(String(e.id), e.cx, y1 + 0.02, e.cz, oe, [-oe[1], oe[0]], sel ? e.size * 1.1 : e.size, sel ? 800 : 600, plotInk(e));
+      fillPoly(to3(scaleAbout(e.pts, 0.95), y1 + 0.004), top, top, Math.max(0.6, Math.min(2, (0.03 * F) / radius)));
+      if (!sel) {
+        const oe = ori(e.ex);
+        flatText(String(e.id), e.cx, y1 + 0.02, e.cz, oe, [-oe[1], oe[0]], e.size, 600, plotInk(e));
+      }
     }
     // keep text upright for the current viewing angle
     function ori(ex) {
@@ -331,6 +335,137 @@ export function startColonyMap(DATA, opts) {
       if (Math.abs(s) < 0.25) { const hf = Math.hypot(Fw.x, Fw.z) || 1; s = (ex[0] * Fw.x + ex[1] * Fw.z) / hf; }
       return s < 0 ? [-ex[0], -ex[1]] : ex;
     }
+
+    // Draw detailed dimensions, tick marks, and area metrics when a plot is selected (matches reference Image 2)
+    function drawSelectedPlotOverlay(e) {
+      const dimInfo = PLOT_DIMENSIONS[e.id] || null;
+      const y1 = 0.1 + e.y + 0.012;
+
+      // 1. Use ori(e.ex) for strictly un-mirrored forward orientation (same as unselected plot numbers)
+      const oe = ori(e.ex);
+      const ez = [-oe[1], oe[0]];
+
+      // Check whether ez points up or down on screen to order lines top-to-bottom
+      const c0 = toCam(0, 0, 0);
+      const cEz = toCam(ez[0], 0, ez[1]);
+      const s0 = scr(c0);
+      const sEz = scr(cEz);
+      // In canvas screen coords, y goes down. If sEz[1] < s0[1], ez points UP on screen.
+      const upSign = sEz[1] < s0[1] ? 1 : -1;
+      const upV = [upSign * ez[0], upSign * ez[1]];
+
+      // Compute bounding span of the plot along oe and ez
+      let minOe = 1e9, maxOe = -1e9, minEz = 1e9, maxEz = -1e9;
+      for (let i = 0; i < e.pts.length; i++) {
+        const px = e.pts[i][0] - e.cx, pz = e.pts[i][1] - e.cz;
+        const dotOe = px * oe[0] + pz * oe[1];
+        const dotEz = px * ez[0] + pz * ez[1];
+        if (dotOe < minOe) minOe = dotOe;
+        if (dotOe > maxOe) maxOe = dotOe;
+        if (dotEz < minEz) minEz = dotEz;
+        if (dotEz > maxEz) maxEz = dotEz;
+      }
+      const spanOe = maxOe - minOe;
+      const spanEz = maxEz - minEz;
+
+      // Font sizing: compact, elegant, perfectly matching Image 2
+      const szNum = Math.max(0.06, Math.min(0.18, spanEz * 0.20, spanOe * 0.24));
+      const szM2 = Math.max(0.035, Math.min(0.09, spanEz * 0.10, spanOe * 0.15));
+      const szFt = Math.max(0.045, Math.min(0.12, spanEz * 0.13, spanOe * 0.18));
+
+      // Vertical positions along upDir (Top: Plot number, Middle: m², Bottom: ft²):
+      const yNum = spanEz * 0.16;
+      const yM2 = -spanEz * 0.05;
+      const yFt = -spanEz * 0.20;
+
+      if (dimInfo) {
+        // Line 1: Plot Number (Bold white)
+        flatText(String(e.id), e.cx + upV[0] * yNum, y1 + 0.005, e.cz + upV[1] * yNum, oe, ez, szNum, 800, "#ffffff");
+        // Line 2: Area in m² (e.g. 92.81 m²)
+        flatText(dimInfo.areaM2.toFixed(2) + " m²", e.cx + upV[0] * yM2, y1 + 0.005, e.cz + upV[1] * yM2, oe, ez, szM2, 500, "rgba(255,255,255,0.88)");
+        // Line 3: Area in ft² (e.g. 999 ft²)
+        flatText(dimInfo.areaSqFt.toLocaleString() + " ft²", e.cx + upV[0] * yFt, y1 + 0.005, e.cz + upV[1] * yFt, oe, ez, szFt, 700, "#ffffff");
+      } else {
+        flatText(String(e.id), e.cx, y1 + 0.005, e.cz, oe, ez, szNum, 800, "#ffffff");
+      }
+
+      // 2. Surrounding dimension lines with tick marks and edge labels
+      const pts = e.pts;
+      const n = pts.length;
+      const minSpan = Math.min(spanOe, spanEz);
+      const offDist = Math.max(0.03, Math.min(0.065, minSpan * 0.09));
+      const tickLen = Math.max(0.04, Math.min(0.08, minSpan * 0.11));
+      const szDim = Math.max(0.04, Math.min(0.08, minSpan * 0.11));
+
+      for (let i = 0; i < n; i++) {
+        const p0 = pts[i];
+        const p1 = pts[(i + 1) % n];
+        const dx = p1[0] - p0[0], dz = p1[1] - p0[1];
+        const len = Math.hypot(dx, dz);
+        if (len < 0.001) continue;
+
+        const ux = dx / len, uz = dz / len;
+        const mx = (p0[0] + p1[0]) / 2, mz = (p0[1] + p1[1]) / 2;
+
+        // Outward normal from centroid
+        let nx = -uz, nz = ux;
+        if (nx * (mx - e.cx) + nz * (mz - e.cz) < 0) {
+          nx = -nx; nz = -nz;
+        }
+
+        // Offset dimension line points
+        const aOff = [p0[0] + nx * offDist, y1 + 0.004, p0[1] + nz * offDist];
+        const bOff = [p1[0] + nx * offDist, y1 + 0.004, p1[1] + nz * offDist];
+
+        // End extension ticks (perpendicular to edge)
+        const tA0 = [aOff[0] - nx * (tickLen * 0.5), y1 + 0.004, aOff[2] - nz * (tickLen * 0.5)];
+        const tA1 = [aOff[0] + nx * (tickLen * 0.5), y1 + 0.004, aOff[2] + nz * (tickLen * 0.5)];
+        const tB0 = [bOff[0] - nx * (tickLen * 0.5), y1 + 0.004, bOff[2] - nz * (tickLen * 0.5)];
+        const tB1 = [bOff[0] + nx * (tickLen * 0.5), y1 + 0.004, bOff[2] + nz * (tickLen * 0.5)];
+
+        // Draw extension ticks (crisp solid white)
+        ctx.setLineDash([]);
+        ctx.strokeStyle = "rgba(255,255,255,0.95)";
+        ctx.lineWidth = 1.2;
+        ctx.lineCap = "butt";
+        ctx.beginPath();
+        segPath(tA0, tA1);
+        segPath(tB0, tB1);
+        ctx.stroke();
+
+        // Edge dimension value
+        const edgeVal = (dimInfo && dimInfo.edges && dimInfo.edges[i] != null) ? dimInfo.edges[i] : (len * 13.5);
+        const dimStr = edgeVal.toFixed(2) + " m";
+
+        // Break dimension line around the text (CAD style as in Image 2)
+        const gapHalf = Math.max(szDim * 1.5, Math.min(len * 0.22, 0.16));
+        const midX = (aOff[0] + bOff[0]) / 2;
+        const midZ = (aOff[2] + bOff[2]) / 2;
+        const gapA = [midX - ux * gapHalf, y1 + 0.004, midZ - uz * gapHalf];
+        const gapB = [midX + ux * gapHalf, y1 + 0.004, midZ + uz * gapHalf];
+
+        // Draw dashed lines before and after gap
+        ctx.setLineDash([4, 3]);
+        ctx.strokeStyle = "rgba(255,255,255,0.85)";
+        ctx.lineWidth = 1.2;
+        ctx.lineCap = "butt";
+        ctx.beginPath();
+        if (len > gapHalf * 2.2) {
+          segPath(aOff, gapA);
+          segPath(gapB, bOff);
+        } else {
+          segPath(aOff, bOff);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Dimension text centered in the gap (guaranteed un-mirrored orientation)
+        const edgeOri = ori([ux, uz]);
+        const edgeEz = [-edgeOri[1], edgeOri[0]];
+        flatText(dimStr, midX, y1 + 0.006, midZ, edgeOri, edgeEz, szDim, 600, "#ffffff");
+      }
+    }
+
     const MAPA = { "#3a3b3f": "rgba(44,45,49,0.84)", "#54682f": "rgba(84,104,47,0.6)", "#4a4b51": "rgba(66,66,72,0.86)", "#54555c": "rgba(78,78,86,0.7)" };
     function render() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.lineJoin = "round"; ctx.setLineDash([]);
@@ -366,6 +501,11 @@ export function startColonyMap(DATA, opts) {
           ctx.fillStyle = "#fff8d6"; ctx.beginPath(); ctx.arc(hx, hy, Math.max(1.2, 0.075 * k), 0, 6.2832); ctx.fill();
         }
       });
+      // Selected plot dimension overlay (rendered on top so never occluded)
+      if (selectedId != null) {
+        const selPlot = byId.get(selectedId);
+        if (selPlot) drawSelectedPlotOverlay(selPlot);
+      }
       // compass + 2D/3D label follow the camera
       const hf = Math.hypot(Fw.x, Fw.z) || 1, rot = Math.atan2(-Rt.z, -Fw.z / hf);
       dialEl.style.transform = "rotate(" + ((rot * 180) / Math.PI).toFixed(1) + "deg)";
@@ -392,7 +532,31 @@ export function startColonyMap(DATA, opts) {
     function focusPlot(e) { anim = { tx: e.cx, tz: e.cz, r: radius > 3 }; }
     function setSelected(id) {
       selectedId = id; info.hidden = id == null;
-      if (id != null) { plotTitle.textContent = "Plot " + id; refreshStatus(); const pe = byId.get(id); if (pe) focusPlot(pe); }
+      if (id != null) {
+        plotTitle.textContent = "Plot " + id;
+        refreshStatus();
+        const dimsEl = $("plotDims");
+        if (dimsEl) {
+          const d = PLOT_DIMENSIONS[id];
+          if (d) {
+            const dimStr = d.edges.slice(0, 2).map((v) => v.toFixed(2) + " m").join(" × ");
+            dimsEl.innerHTML = `
+              <div style="display:flex;justify-content:space-between;margin-bottom:3px">
+                <span style="color:rgba(255,255,255,0.6)">Area:</span>
+                <b style="color:#ffffff">${d.areaM2.toFixed(2)} m² (${d.areaSqFt.toLocaleString()} ft²)</b>
+              </div>
+              <div style="display:flex;justify-content:space-between">
+                <span style="color:rgba(255,255,255,0.6)">Dimensions:</span>
+                <b style="color:#ffffff">${dimStr}</b>
+              </div>
+            `;
+          } else {
+            dimsEl.innerHTML = "";
+          }
+        }
+        const pe = byId.get(id);
+        if (pe) focusPlot(pe);
+      }
       updateWa(); dirty = true;
     }
     function showPanel(which) { $("planPanel").hidden = which !== "plan"; $("infoPanel").hidden = which !== "info"; }

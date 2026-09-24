@@ -159,6 +159,7 @@ export default function ColonyMapModal({ onClose }) {
             <div className="cm-eyebrow">SELECTED PLOT</div>
             <div className="cm-plotTitle" id="plotTitle">Plot 1</div>
             <div className="cm-statusRow"><span id="statusPill" className="cm-pill avail">Available</span></div>
+            <div className="cm-plotDims" id="plotDims" style={{ marginTop: "10px", marginBottom: "6px", fontSize: "12px", lineHeight: "1.5", color: "rgba(255,255,255,0.8)", borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "8px" }}></div>
             <button id="toggleSold" className="cm-soldBtn" type="button">Mark as sold</button>
           </div>
           <div className="cm-searchBar" id="searchBar" hidden>
