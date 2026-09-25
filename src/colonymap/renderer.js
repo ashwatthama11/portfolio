@@ -197,8 +197,8 @@ export function startColonyMap(DATA, opts) {
     }
 
     // ---------- config ----------
-    const PROJECT = "Colony Master Plan";
-    const WHATSAPP = ""; // digits only with country code, e.g. "919876543210" (empty = WhatsApp lets the user pick a contact)
+    const PROJECT = "Malewad Smart Plotted Layout";
+    const WHATSAPP = "916265597717"; // digits only with country code
 
     // ---------- site + terrain ----------
     const SITE = DATA.site.map((p) => P(p[0], p[1]));

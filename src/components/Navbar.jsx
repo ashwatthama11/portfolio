@@ -236,14 +236,16 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
           })}
         </nav>
 
-        {/* Smart Layout Icon Button */}
+        {/* Smart Layout Pill Button */}
         <button
           type="button"
           onClick={() => onNavigateSmartLayout && onNavigateSmartLayout()}
-          title="Smart Layout — Interactive 3D Demo"
-          className="hidden md:grid place-items-center w-8 h-8 rounded-full border border-[#FF7A00]/30 bg-[#FF7A00]/5 text-[#FF7A00] hover:bg-[#FF7A00] hover:text-white hover:border-[#FF7A00] transition-all duration-200 hover:shadow-[0_0_12px_rgba(255,122,0,0.4)]"
+          title="Smart Layout — Interactive 3D Plot Map"
+          className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#FF7A00]/30 bg-[#FF7A00]/5 text-[#FF7A00] text-xs font-semibold hover:bg-[#FF7A00] hover:text-white hover:border-[#FF7A00] transition-all duration-200 shadow-sm"
         >
-          <Box className="w-4 h-4" />
+          <Box className="w-3.5 h-3.5" />
+          <span>3D Smart Layout</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
         </button>
 
         {/* Desktop WhatsApp CTA */}

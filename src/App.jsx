@@ -43,7 +43,13 @@ export default function App() {
         setSelectedServiceSlug(null);
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
-      } else if (hash === '#/smart-layout' || hash === '#smart-layout') {
+      } else if (
+        hash === '#/smart-layout' ||
+        hash === '#smart-layout' ||
+        hash === '#/plot-showcase' ||
+        hash === '#plot-showcase' ||
+        hash === '#/3d-plot-viewer'
+      ) {
         setCurrentView('smart-layout');
         setSelectedCitySlug(null);
         setSelectedServiceSlug(null);
@@ -70,7 +76,14 @@ export default function App() {
       }
 
       // Default or section anchor
-      if (!hash.startsWith('#/city/') && !hash.startsWith('#/service/') && hash !== '#/sitemap' && hash !== '#sitemap' && hash !== '#/smart-layout' && hash !== '#smart-layout') {
+      const isPlotView =
+        hash === '#/smart-layout' ||
+        hash === '#smart-layout' ||
+        hash === '#/plot-showcase' ||
+        hash === '#plot-showcase' ||
+        hash === '#/3d-plot-viewer';
+
+      if (!hash.startsWith('#/city/') && !hash.startsWith('#/service/') && hash !== '#/sitemap' && hash !== '#sitemap' && !isPlotView) {
         setCurrentView('home');
       }
     };
@@ -134,6 +147,19 @@ export default function App() {
   const activeCity = citiesData.find((c) => c.slug === selectedCitySlug);
   const activeService = servicesData.find((s) => s.slug === selectedServiceSlug);
 
+  if (currentView === 'smart-layout') {
+    return (
+      <div className="relative min-h-screen bg-[#08090A] text-[#E2E8F0] flex flex-col font-sans selection:bg-[#FF7A00] selection:text-white">
+        <SmartLayoutView onNavigateHome={handleNavigateHome} />
+        <QuoteModal
+          isOpen={isQuoteModalOpen}
+          onClose={() => setIsQuoteModalOpen(false)}
+          initialData={quotePrefill}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="relative min-h-screen bg-white text-black flex flex-col font-sans selection:bg-[#FF7A00] selection:text-white">
       
@@ -156,8 +182,6 @@ export default function App() {
             onSelectCity={handleSelectCity}
             onSelectService={handleSelectService}
           />
-        ) : currentView === 'smart-layout' ? (
-          <SmartLayoutView onNavigateHome={handleNavigateHome} />
         ) : currentView === 'city' && activeCity ? (
           /* Dedicated City Landing Page */
           <CityPageView
