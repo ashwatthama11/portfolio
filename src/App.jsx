@@ -56,12 +56,9 @@ export default function App() {
       if (
         pathname === '/aadhunik-naksha' ||
         pathname === '/aadhunik-naksha.html' ||
-        pathname === '/smart-layout' ||
         pathname === '/plot-showcase' ||
         hash === '#/aadhunik-naksha' ||
         hash === '#aadhunik-naksha' ||
-        hash === '#/smart-layout' ||
-        hash === '#smart-layout' ||
         hash === '#/plot-showcase' ||
         hash === '#plot-showcase' ||
         hash === '#/3d-plot-viewer'
@@ -115,6 +112,25 @@ export default function App() {
       window.removeEventListener('popstate', handleRouteChange);
     };
   }, []);
+
+  // Dynamically update document title based on current view
+  useEffect(() => {
+    if (currentView === 'bakde-vihar') {
+      document.title = 'BAKDE VIHAR | 3D Interactive Plotted Layout Master Plan';
+    } else if (currentView === 'aadhunik-naksha') {
+      document.title = 'AVA Smart Layout | Interactive 3D Real Estate Plot Maps & Viewer';
+    } else if (currentView === 'sitemap') {
+      document.title = 'Sitemap Directory | Aman Verma Architects';
+    } else if (currentView === 'city' && selectedCitySlug) {
+      const city = citiesData.find((c) => c.slug === selectedCitySlug);
+      document.title = city ? `Architect in ${city.name} | Aman Verma Architects` : 'Aman Verma Architects';
+    } else if (currentView === 'service' && selectedServiceSlug) {
+      const service = servicesData.find((s) => s.slug === selectedServiceSlug);
+      document.title = service ? `${service.title} | Aman Verma Architects` : 'Aman Verma Architects';
+    } else {
+      document.title = 'Architect in Maharashtra & Madhya Pradesh | House Planning, Interior Design & Survey | Aman Verma Architects';
+    }
+  }, [currentView, selectedCitySlug, selectedServiceSlug]);
 
   // Handler to navigate home
   const handleNavigateHome = () => {
@@ -207,7 +223,7 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-white text-black flex flex-col font-sans selection:bg-[#FF7A00] selection:text-white">
-      
+
       {/* Sticky Header Navigation Bar */}
       <Navbar
         currentView={currentView}

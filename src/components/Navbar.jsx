@@ -27,7 +27,6 @@ export default function Navbar({
     { name: 'Projects', href: '#projects' },
     { name: 'Why Us', href: '#why-choose-us' },
     { name: 'Guides', href: '#guides' },
-    { name: 'Smart Layout', href: '#/aadhunik-naksha', isCustomAction: 'aadhunik-naksha' },
     { name: 'Sitemap', href: '#/sitemap', isCustomAction: 'sitemap' },
     { name: 'Contact', href: '#contact' },
   ];
@@ -71,9 +70,7 @@ export default function Navbar({
 
     if (
       isCustomAction === 'aadhunik-naksha' ||
-      href === '#/aadhunik-naksha' ||
-      isCustomAction === 'smart-layout' ||
-      href === '#/smart-layout'
+      href === '#/aadhunik-naksha'
     ) {
       if (onNavigateAadhunikNaksha) onNavigateAadhunikNaksha();
       else if (onNavigateSmartLayout) onNavigateSmartLayout();
@@ -115,14 +112,13 @@ export default function Navbar({
 
   return (
     <header
-      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
-        isScrolled
-          ? 'bg-white/98 backdrop-blur-md shadow-md border-b border-black/10 py-3 sm:py-3.5'
-          : 'bg-white py-4 sm:py-5 border-b border-black/5'
-      }`}
+      className={`sticky top-0 z-40 w-full transition-all duration-300 ${isScrolled
+        ? 'bg-white/98 backdrop-blur-md shadow-md border-b border-black/10 py-3 sm:py-3.5'
+        : 'bg-white py-4 sm:py-5 border-b border-black/5'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between">
-        
+
         {/* Brand Logo */}
         <button
           onClick={() => onNavigateHome()}
@@ -144,8 +140,8 @@ export default function Navbar({
           {navLinks.map((link) => {
             if (link.isDropdown === 'services') {
               return (
-                <div 
-                  key="services-dropdown" 
+                <div
+                  key="services-dropdown"
                   className="relative group"
                   onMouseEnter={() => setServicesDropdownOpen(true)}
                   onMouseLeave={() => setServicesDropdownOpen(false)}
@@ -189,8 +185,8 @@ export default function Navbar({
 
             if (link.isDropdown === 'cities') {
               return (
-                <div 
-                  key="cities-dropdown" 
+                <div
+                  key="cities-dropdown"
                   className="relative group"
                   onMouseEnter={() => setCitiesDropdownOpen(true)}
                   onMouseLeave={() => setCitiesDropdownOpen(false)}
@@ -239,9 +235,8 @@ export default function Navbar({
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleLinkClick(e, link.href, link.isCustomAction)}
-                className={`relative text-xs tracking-wide font-medium transition-colors duration-300 py-1 ${
-                  isActive ? 'text-black font-semibold' : 'text-black/70 hover:text-[#FF7A00]'
-                }`}
+                className={`relative text-xs tracking-wide font-medium transition-colors duration-300 py-1 ${isActive ? 'text-black font-semibold' : 'text-black/70 hover:text-[#FF7A00]'
+                  }`}
               >
                 {link.name}
                 {isActive && (
@@ -256,20 +251,7 @@ export default function Navbar({
           })}
         </nav>
 
-        {/* Smart Layout Pill Button */}
-        <button
-          type="button"
-          onClick={() => {
-            if (onNavigateAadhunikNaksha) onNavigateAadhunikNaksha();
-            else if (onNavigateSmartLayout) onNavigateSmartLayout();
-          }}
-          title="Smart Layout — Interactive 3D Plot Map"
-          className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#FF7A00]/30 bg-[#FF7A00]/5 text-[#FF7A00] text-xs font-semibold hover:bg-[#FF7A00] hover:text-white hover:border-[#FF7A00] transition-all duration-200 shadow-sm cursor-pointer"
-        >
-          <Box className="w-3.5 h-3.5" />
-          <span>3D Smart Layout</span>
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-        </button>
+
 
         {/* Desktop WhatsApp CTA */}
         <div className="hidden md:flex items-center gap-3">
@@ -362,20 +344,7 @@ export default function Navbar({
                     {href.replace('#', '').replace('-', ' ').toUpperCase()}
                   </a>
                 ))}
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    if (onNavigateAadhunikNaksha) onNavigateAadhunikNaksha();
-                    else if (onNavigateSmartLayout) onNavigateSmartLayout();
-                  }}
-                  className="w-full text-left text-sm font-medium py-2 px-3 hover:bg-[#FF7A00]/10 flex items-center justify-between cursor-pointer"
-                >
-                  <span className="flex items-center gap-2">
-                    <Box className="w-4 h-4 text-[#FF7A00]" />
-                    <span>SMART LAYOUT — 3D DEMO</span>
-                  </span>
-                  <span className="text-xs text-[#FF7A00]">→</span>
-                </button>
+
                 <button
                   onClick={(e) => handleLinkClick(e, '#/sitemap', 'sitemap')}
                   className="w-full text-left text-sm font-medium py-2 px-3 text-[#FF7A00] hover:bg-[#FF7A00]/10 flex items-center justify-between cursor-pointer"
