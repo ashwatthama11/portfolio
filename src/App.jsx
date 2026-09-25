@@ -17,13 +17,14 @@ import CityPageView from './components/CityPageView';
 import ServicePageView from './components/ServicePageView';
 import SitemapView from './components/SitemapView';
 import SmartLayoutView from './components/SmartLayoutView';
+import BakdeViharView from './components/BakdeViharView';
 import QuoteModal from './components/QuoteModal';
 
 import { citiesData } from './data/citiesData';
 import { servicesData } from './data/servicesData';
 
 export default function App() {
-  // Navigation View State: 'home', 'city', 'service', 'sitemap', 'smart-layout'
+  // Navigation View State: 'home', 'city', 'service', 'sitemap', 'aadhunik-naksha', 'bakde-vihar'
   const [currentView, setCurrentView] = useState('home');
   const [selectedCitySlug, setSelectedCitySlug] = useState(null);
   const [selectedServiceSlug, setSelectedServiceSlug] = useState(null);
@@ -32,30 +33,55 @@ export default function App() {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [quotePrefill, setQuotePrefill] = useState(null);
 
-  // Handle URL hash changes for deep linking (e.g., #/city/pune, #/service/house-planning, #/sitemap)
+  // Handle URL hash and pathname changes for deep linking
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash;
+    const handleRouteChange = () => {
+      const hash = window.location.hash.toLowerCase();
+      const pathname = window.location.pathname.toLowerCase().replace(/\/+$/, '') || '/';
 
-      if (hash === '#/sitemap' || hash === '#sitemap') {
-        setCurrentView('sitemap');
+      if (
+        pathname === '/bakde-vihar' ||
+        pathname === '/bakde-vihar.html' ||
+        hash === '#/bakde-vihar' ||
+        hash === '#bakde-vihar' ||
+        hash === '/bakde-vihar'
+      ) {
+        setCurrentView('bakde-vihar');
         setSelectedCitySlug(null);
         setSelectedServiceSlug(null);
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
-      } else if (
+      }
+
+      if (
+        pathname === '/aadhunik-naksha' ||
+        pathname === '/aadhunik-naksha.html' ||
+        pathname === '/smart-layout' ||
+        pathname === '/plot-showcase' ||
+        hash === '#/aadhunik-naksha' ||
+        hash === '#aadhunik-naksha' ||
         hash === '#/smart-layout' ||
         hash === '#smart-layout' ||
         hash === '#/plot-showcase' ||
         hash === '#plot-showcase' ||
         hash === '#/3d-plot-viewer'
       ) {
-        setCurrentView('smart-layout');
+        setCurrentView('aadhunik-naksha');
         setSelectedCitySlug(null);
         setSelectedServiceSlug(null);
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
-      } else if (hash.startsWith('#/city/')) {
+      }
+
+      if (hash === '#/sitemap' || hash === '#sitemap' || pathname === '/sitemap') {
+        setCurrentView('sitemap');
+        setSelectedCitySlug(null);
+        setSelectedServiceSlug(null);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      if (hash.startsWith('#/city/')) {
         const slug = hash.replace('#/city/', '').trim().toLowerCase();
         const cityExists = citiesData.find((c) => c.slug === slug);
         if (cityExists) {
@@ -76,23 +102,18 @@ export default function App() {
       }
 
       // Default or section anchor
-      const isPlotView =
-        hash === '#/smart-layout' ||
-        hash === '#smart-layout' ||
-        hash === '#/plot-showcase' ||
-        hash === '#plot-showcase' ||
-        hash === '#/3d-plot-viewer';
-
-      if (!hash.startsWith('#/city/') && !hash.startsWith('#/service/') && hash !== '#/sitemap' && hash !== '#sitemap' && !isPlotView) {
-        setCurrentView('home');
-      }
+      setCurrentView('home');
     };
 
     // Run on initial mount
-    handleHashChange();
+    handleRouteChange();
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('hashchange', handleRouteChange);
+    window.addEventListener('popstate', handleRouteChange);
+    return () => {
+      window.removeEventListener('hashchange', handleRouteChange);
+      window.removeEventListener('popstate', handleRouteChange);
+    };
   }, []);
 
   // Handler to navigate home
@@ -129,11 +150,21 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleNavigateSmartLayout = () => {
-    setCurrentView('smart-layout');
+  // Handler to open Aadhunik Naksha showcase
+  const handleNavigateAadhunikNaksha = () => {
+    setCurrentView('aadhunik-naksha');
     setSelectedCitySlug(null);
     setSelectedServiceSlug(null);
-    window.location.hash = '#/smart-layout';
+    window.location.hash = '#/aadhunik-naksha';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Handler to open Bakde Vihar 3D master plan
+  const handleNavigateBakdeVihar = () => {
+    setCurrentView('bakde-vihar');
+    setSelectedCitySlug(null);
+    setSelectedServiceSlug(null);
+    window.location.hash = '#/bakde-vihar';
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -147,10 +178,24 @@ export default function App() {
   const activeCity = citiesData.find((c) => c.slug === selectedCitySlug);
   const activeService = servicesData.find((s) => s.slug === selectedServiceSlug);
 
-  if (currentView === 'smart-layout') {
+  // Dedicated Route: /bakde-vihar (Full-page 3D master plan layout)
+  if (currentView === 'bakde-vihar') {
+    return (
+      <BakdeViharView
+        onNavigateAadhunikNaksha={handleNavigateAadhunikNaksha}
+        onNavigateHome={handleNavigateHome}
+      />
+    );
+  }
+
+  // Dedicated Route: /aadhunik-naksha (Showcase landing page)
+  if (currentView === 'aadhunik-naksha') {
     return (
       <div className="relative min-h-screen bg-[#08090A] text-[#E2E8F0] flex flex-col font-sans selection:bg-[#FF7A00] selection:text-white">
-        <SmartLayoutView onNavigateHome={handleNavigateHome} />
+        <SmartLayoutView
+          onNavigateHome={handleNavigateHome}
+          onNavigateBakdeVihar={handleNavigateBakdeVihar}
+        />
         <QuoteModal
           isOpen={isQuoteModalOpen}
           onClose={() => setIsQuoteModalOpen(false)}
@@ -170,7 +215,9 @@ export default function App() {
         onSelectCity={handleSelectCity}
         onSelectService={handleSelectService}
         onNavigateSitemap={handleNavigateSitemap}
-        onNavigateSmartLayout={handleNavigateSmartLayout}
+        onNavigateSmartLayout={handleNavigateAadhunikNaksha}
+        onNavigateAadhunikNaksha={handleNavigateAadhunikNaksha}
+        onNavigateBakdeVihar={handleNavigateBakdeVihar}
       />
 
       {/* Main Content Render Based on View State */}

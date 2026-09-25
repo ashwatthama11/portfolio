@@ -4,7 +4,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { citiesData } from '../data/citiesData';
 import { servicesData } from '../data/servicesData';
 
-export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, onNavigateSitemap, onNavigateSmartLayout, currentView }) {
+export default function Navbar({
+  onNavigateHome,
+  onSelectCity,
+  onSelectService,
+  onNavigateSitemap,
+  onNavigateSmartLayout,
+  onNavigateAadhunikNaksha,
+  onNavigateBakdeVihar,
+  currentView,
+}) {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -18,7 +27,7 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
     { name: 'Projects', href: '#projects' },
     { name: 'Why Us', href: '#why-choose-us' },
     { name: 'Guides', href: '#guides' },
-    { name: 'Smart Layout', href: '#/smart-layout', isCustomAction: 'smart-layout' },
+    { name: 'आधुनिक नक्शा', href: '#/aadhunik-naksha', isCustomAction: 'aadhunik-naksha' },
     { name: 'Sitemap', href: '#/sitemap', isCustomAction: 'sitemap' },
     { name: 'Contact', href: '#contact' },
   ];
@@ -60,8 +69,19 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
       return;
     }
 
-    if (isCustomAction === 'smart-layout' || href === '#/smart-layout') {
-      if (onNavigateSmartLayout) onNavigateSmartLayout();
+    if (
+      isCustomAction === 'aadhunik-naksha' ||
+      href === '#/aadhunik-naksha' ||
+      isCustomAction === 'smart-layout' ||
+      href === '#/smart-layout'
+    ) {
+      if (onNavigateAadhunikNaksha) onNavigateAadhunikNaksha();
+      else if (onNavigateSmartLayout) onNavigateSmartLayout();
+      return;
+    }
+
+    if (isCustomAction === 'bakde-vihar' || href === '#/bakde-vihar') {
+      if (onNavigateBakdeVihar) onNavigateBakdeVihar();
       return;
     }
 
@@ -236,15 +256,18 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
           })}
         </nav>
 
-        {/* Smart Layout Pill Button */}
+        {/* Aadhunik Naksha Pill Button */}
         <button
           type="button"
-          onClick={() => onNavigateSmartLayout && onNavigateSmartLayout()}
-          title="Smart Layout — Interactive 3D Plot Map"
-          className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#FF7A00]/30 bg-[#FF7A00]/5 text-[#FF7A00] text-xs font-semibold hover:bg-[#FF7A00] hover:text-white hover:border-[#FF7A00] transition-all duration-200 shadow-sm"
+          onClick={() => {
+            if (onNavigateAadhunikNaksha) onNavigateAadhunikNaksha();
+            else if (onNavigateSmartLayout) onNavigateSmartLayout();
+          }}
+          title="आधुनिक नक्शा (Aadhunik Naksha) — 3D Layout Platform"
+          className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#FF7A00]/30 bg-[#FF7A00]/5 text-[#FF7A00] text-xs font-semibold hover:bg-[#FF7A00] hover:text-white hover:border-[#FF7A00] transition-all duration-200 shadow-sm cursor-pointer"
         >
           <Box className="w-3.5 h-3.5" />
-          <span>3D Smart Layout</span>
+          <span>आधुनिक नक्शा (3D)</span>
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
         </button>
 
@@ -340,14 +363,31 @@ export default function Navbar({ onNavigateHome, onSelectCity, onSelectService, 
                   </a>
                 ))}
                 <button
-                  onClick={() => { setMobileMenuOpen(false); onNavigateSmartLayout && onNavigateSmartLayout(); }}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    if (onNavigateAadhunikNaksha) onNavigateAadhunikNaksha();
+                    else if (onNavigateSmartLayout) onNavigateSmartLayout();
+                  }}
                   className="w-full text-left text-sm font-medium py-2 px-3 hover:bg-[#FF7A00]/10 flex items-center justify-between cursor-pointer"
                 >
                   <span className="flex items-center gap-2">
                     <Box className="w-4 h-4 text-[#FF7A00]" />
-                    <span>SMART LAYOUT — 3D DEMO</span>
+                    <span>आधुनिक नक्शा — 3D SHOWCASE</span>
                   </span>
                   <span className="text-xs text-[#FF7A00]">→</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    if (onNavigateBakdeVihar) onNavigateBakdeVihar();
+                  }}
+                  className="w-full text-left text-sm font-medium py-2 px-3 hover:bg-[#FF7A00]/10 flex items-center justify-between cursor-pointer text-emerald-600"
+                >
+                  <span className="flex items-center gap-2">
+                    <Box className="w-4 h-4 text-emerald-500" />
+                    <span>बाकड़े विहार — 3D MASTER PLAN</span>
+                  </span>
+                  <span className="text-xs text-emerald-500">→</span>
                 </button>
                 <button
                   onClick={(e) => handleLinkClick(e, '#/sitemap', 'sitemap')}

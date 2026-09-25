@@ -197,7 +197,7 @@ export function startColonyMap(DATA, opts) {
     }
 
     // ---------- config ----------
-    const PROJECT = "Malewad Smart Plotted Layout";
+    const PROJECT = "Bakde Vihar Plotted Layout";
     const WHATSAPP = "916265597717"; // digits only with country code
 
     // ---------- site + terrain ----------

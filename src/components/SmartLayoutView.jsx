@@ -26,7 +26,6 @@ import {
   ChevronUp,
   Share2,
 } from "lucide-react";
-import ColonyMapModal from "./ColonyMapModal";
 import { PLOT_DIMENSIONS } from "../colonymap/plotDimensions";
 
 // Sample highlighted plots for interactive explorer
@@ -103,8 +102,7 @@ const FAQS = [
   },
 ];
 
-export default function SmartLayoutView({ onNavigateHome }) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function SmartLayoutView({ onNavigateHome, onNavigateBakdeVihar }) {
   const [sliderPos, setSliderPos] = useState(50); // 0 to 100
   const [isDragging, setIsDragging] = useState(false);
   const sliderRef = useRef(null);
@@ -112,6 +110,14 @@ export default function SmartLayoutView({ onNavigateHome }) {
   // Selected plot for interactive dimension explorer widget
   const [selectedPlotId, setSelectedPlotId] = useState(1);
   const [activeFaq, setActiveFaq] = useState(null);
+
+  const handleOpenBakdeVihar = () => {
+    if (onNavigateBakdeVihar) {
+      onNavigateBakdeVihar();
+    } else {
+      window.location.hash = "#/bakde-vihar";
+    }
+  };
 
   // Handle slider drag
   const handleSliderMove = useCallback((clientX) => {
@@ -153,70 +159,67 @@ export default function SmartLayoutView({ onNavigateHome }) {
   const currentPlotMeta = SAMPLE_PLOTS.find((p) => p.id === selectedPlotId) || SAMPLE_PLOTS[0];
 
   const whatsappInquiryUrl = `https://wa.me/916265597717?text=${encodeURIComponent(
-    `Hello Ar. Aman Verma, I am interested in inquiring about Plot #${selectedPlotId} (${currentPlotSpec.areaSqFt} sq.ft) in Malewad Smart Layout.`
+    `Hello Ar. Aman Verma, I am interested in inquiring about Plot #${selectedPlotId} (${currentPlotSpec.areaSqFt} sq.ft) in Bakde Vihar 3D Layout.`
   )}`;
 
   return (
-    <>
-      {isOpen && <ColonyMapModal onClose={() => setIsOpen(false)} />}
-
-      <div className="min-h-screen bg-[#08090A] text-[#E2E8F0] selection:bg-[#FF7A00] selection:text-white font-sans">
-        {/* Top Floating Header */}
-        <header className="sticky top-0 z-40 border-b border-white/10 bg-[#08090A]/90 backdrop-blur-xl">
-          <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-4">
-              {onNavigateHome ? (
-                <button
-                  type="button"
-                  onClick={onNavigateHome}
-                  className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/70 transition-colors hover:border-[#FF7A00]/50 hover:bg-[#FF7A00]/10 hover:text-white"
-                >
-                  <ArrowLeft className="h-3.5 w-3.5 text-[#FF7A00]" />
-                  <span>Back to Studio</span>
-                </button>
-              ) : (
-                <a
-                  href="/#home"
-                  className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/70 transition-colors hover:border-[#FF7A00]/50 hover:bg-[#FF7A00]/10 hover:text-white"
-                >
-                  <ArrowLeft className="h-3.5 w-3.5 text-[#FF7A00]" />
-                  <span>Back to Studio</span>
-                </a>
-              )}
-              <div className="hidden h-5 w-px bg-white/15 sm:block" />
-              <div className="flex items-center gap-2.5">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FF7A00]/15 text-[#FF7A00] border border-[#FF7A00]/30 font-bold text-xs">
-                  AVA
-                </div>
-                <span className="text-sm font-bold tracking-wide text-white">SMART LAYOUT</span>
-                <span className="hidden rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold tracking-wider text-emerald-400 uppercase sm:inline-block">
-                  Live 3D Engine
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <a
-                href="https://wa.me/916265597717?text=Hi%20Ar.%20Aman%20Verma,%20I%20want%20to%20convert%20my%20real%20estate%20plot%20layout%20into%20an%20interactive%203D%20map."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-semibold text-emerald-400 transition-all hover:bg-emerald-500 hover:text-white sm:inline-flex"
-              >
-                <MessageCircle className="h-3.5 w-3.5" />
-                <span>WhatsApp Demo</span>
-              </a>
-
+    <div className="min-h-screen bg-[#08090A] text-[#E2E8F0] selection:bg-[#FF7A00] selection:text-white font-sans">
+      {/* Top Floating Header */}
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#08090A]/90 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-4">
+            {onNavigateHome ? (
               <button
                 type="button"
-                onClick={() => setIsOpen(true)}
-                className="inline-flex items-center gap-2 rounded-full bg-[#FF7A00] px-4 py-1.5 text-xs font-bold text-white shadow-[0_4px_20px_rgba(255,122,0,0.35)] transition-all hover:bg-[#e06c00] hover:scale-105 active:scale-95"
+                onClick={onNavigateHome}
+                className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/70 transition-colors hover:border-[#FF7A00]/50 hover:bg-[#FF7A00]/10 hover:text-white"
               >
-                <Maximize2 className="h-3.5 w-3.5" />
-                <span>Launch 3D Map</span>
+                <ArrowLeft className="h-3.5 w-3.5 text-[#FF7A00]" />
+                <span>Back to Studio</span>
               </button>
+            ) : (
+              <a
+                href="/#home"
+                className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/70 transition-colors hover:border-[#FF7A00]/50 hover:bg-[#FF7A00]/10 hover:text-white"
+              >
+                <ArrowLeft className="h-3.5 w-3.5 text-[#FF7A00]" />
+                <span>Back to Studio</span>
+              </a>
+            )}
+            <div className="hidden h-5 w-px bg-white/15 sm:block" />
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FF7A00]/15 text-[#FF7A00] border border-[#FF7A00]/30 font-bold text-xs">
+                AVA
+              </div>
+              <span className="text-sm font-bold tracking-wide text-white">AADHUNIK NAKSHA</span>
+              <span className="hidden rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold tracking-wider text-emerald-400 uppercase sm:inline-block">
+                3D Layout Platform
+              </span>
             </div>
           </div>
-        </header>
+
+          <div className="flex items-center gap-3">
+            <a
+              href="https://wa.me/916265597717?text=Hi%20Ar.%20Aman%20Verma,%20I%20want%20to%20convert%20my%20real%20estate%20plot%20layout%20into%20an%20interactive%203D%20map."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-1.5 text-xs font-semibold text-emerald-400 transition-all hover:bg-emerald-500 hover:text-white sm:inline-flex"
+            >
+              <MessageCircle className="h-3.5 w-3.5" />
+              <span>WhatsApp Demo</span>
+            </a>
+
+            <button
+              type="button"
+              onClick={handleOpenBakdeVihar}
+              className="inline-flex items-center gap-2 rounded-full bg-[#FF7A00] px-4 py-1.5 text-xs font-bold text-white shadow-[0_4px_20px_rgba(255,122,0,0.35)] transition-all hover:bg-[#e06c00] hover:scale-105 active:scale-95"
+            >
+              <Maximize2 className="h-3.5 w-3.5" />
+              <span>Bakde Vihar 3D</span>
+            </button>
+          </div>
+        </div>
+      </header>
 
         {/* HERO SECTION */}
         <section className="relative overflow-hidden pt-12 pb-20 sm:pt-20 sm:pb-28">
@@ -258,11 +261,11 @@ export default function SmartLayoutView({ onNavigateHome }) {
               <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
                 <button
                   type="button"
-                  onClick={() => setIsOpen(true)}
+                  onClick={handleOpenBakdeVihar}
                   className="inline-flex items-center gap-2.5 rounded-full bg-[#FF7A00] px-7 py-3.5 text-sm font-bold text-white shadow-[0_8px_30px_rgba(255,122,0,0.4)] transition-all hover:bg-[#e06c00] hover:scale-105"
                 >
                   <Maximize2 className="h-4 w-4" />
-                  <span>Launch Live 3D Master Plan</span>
+                  <span>Explore Bakde Vihar in 3D</span>
                 </button>
 
                 <a
@@ -309,7 +312,7 @@ export default function SmartLayoutView({ onNavigateHome }) {
                 <div className="absolute top-4 left-4 flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-black/40 bg-black/70 px-3 py-1 text-xs font-semibold text-white backdrop-blur-md">
                     <span className="h-2 w-2 animate-ping rounded-full bg-emerald-400" />
-                    <span>Project: Malewad Plotted Layout</span>
+                    <span>Project: Bakde Vihar Plotted Layout</span>
                   </span>
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-950/80 px-3 py-1 text-xs font-semibold text-emerald-300 backdrop-blur-md">
                     245 Available • 36 Sold
@@ -327,13 +330,13 @@ export default function SmartLayoutView({ onNavigateHome }) {
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 p-6 text-center backdrop-blur-[2px] transition-all hover:bg-black/20">
                   <button
                     type="button"
-                    onClick={() => setIsOpen(true)}
-                    className="group relative flex h-20 w-20 items-center justify-center rounded-full bg-[#FF7A00] text-white shadow-[0_0_50px_rgba(255,122,0,0.6)] transition-all duration-300 hover:scale-110 active:scale-95"
-                    aria-label="Open 3D interactive viewer"
+                    onClick={handleOpenBakdeVihar}
+                    className="group relative flex h-20 w-20 items-center justify-center rounded-full bg-[#FF7A00] text-white shadow-[0_0_50px_rgba(255,122,0,0.6)] transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
+                    aria-label="Open Bakde Vihar 3D interactive layout"
                   >
                     <Box className="h-10 w-10 transition-transform duration-300 group-hover:rotate-12" />
                     <span className="absolute -bottom-8 whitespace-nowrap text-xs font-bold tracking-widest text-white uppercase drop-shadow-md">
-                      Click to Explore 3D
+                      Open /bakde-vihar 3D
                     </span>
                   </button>
                   <p className="mt-12 text-sm font-medium text-white/90 drop-shadow">
@@ -483,11 +486,11 @@ export default function SmartLayoutView({ onNavigateHome }) {
                 <div className="mt-8 flex items-center gap-4">
                   <button
                     type="button"
-                    onClick={() => setIsOpen(true)}
-                    className="inline-flex items-center gap-2 rounded-xl bg-white/10 px-5 py-3 text-xs font-bold text-white transition-all hover:bg-white/20"
+                    onClick={handleOpenBakdeVihar}
+                    className="inline-flex items-center gap-2 rounded-xl bg-white/10 px-5 py-3 text-xs font-bold text-white transition-all hover:bg-white/20 cursor-pointer"
                   >
                     <Search className="h-4 w-4 text-[#FF7A00]" />
-                    <span>Search Any of 280+ Plots in 3D</span>
+                    <span>Explore All 280+ Plots in Bakde Vihar 3D</span>
                   </button>
                 </div>
               </div>
@@ -578,11 +581,11 @@ export default function SmartLayoutView({ onNavigateHome }) {
 
                     <button
                       type="button"
-                      onClick={() => setIsOpen(true)}
-                      className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3.5 text-xs font-semibold text-white transition-all hover:bg-white/10"
+                      onClick={handleOpenBakdeVihar}
+                      className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3.5 text-xs font-semibold text-white transition-all hover:bg-white/10 cursor-pointer"
                     >
                       <Eye className="h-4 w-4 text-[#FF7A00]" />
-                      <span>View in Full 3D Layout</span>
+                      <span>View in 3D Layout (/bakde-vihar)</span>
                     </button>
                   </div>
                 </div>
@@ -747,11 +750,11 @@ export default function SmartLayoutView({ onNavigateHome }) {
 
               <button
                 type="button"
-                onClick={() => setIsOpen(true)}
-                className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/5 px-8 py-4 text-sm font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10"
+                onClick={handleOpenBakdeVihar}
+                className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/5 px-8 py-4 text-sm font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10 cursor-pointer"
               >
                 <Maximize2 className="h-4 w-4 text-[#FF7A00]" />
-                <span>Launch Malewad 3D Layout</span>
+                <span>Launch Bakde Vihar 3D Layout</span>
               </button>
             </div>
           </div>
@@ -759,9 +762,8 @@ export default function SmartLayoutView({ onNavigateHome }) {
 
         {/* Minimal Footer */}
         <footer className="border-t border-white/10 bg-black py-8 text-center text-xs text-white/40">
-          <p>© {new Date().getFullYear()} Aman Verma Architects. AVA Smart Layout 3D Engine. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Aman Verma Architects. Aadhunik Naksha 3D Platform. All rights reserved.</p>
         </footer>
       </div>
-    </>
   );
 }

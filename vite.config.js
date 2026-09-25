@@ -12,6 +12,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
+        aadhunikNaksha: resolve(__dirname, 'aadhunik-naksha.html'),
+        bakdeVihar: resolve(__dirname, 'bakde-vihar.html'),
         plotShowcase: resolve(__dirname, 'plot-showcase.html')
       }
     }
