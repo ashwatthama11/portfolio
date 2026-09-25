@@ -159,7 +159,7 @@ export default function SmartLayoutView({ onNavigateHome, onNavigateBakdeVihar }
   const currentPlotMeta = SAMPLE_PLOTS.find((p) => p.id === selectedPlotId) || SAMPLE_PLOTS[0];
 
   const whatsappInquiryUrl = `https://wa.me/916265597717?text=${encodeURIComponent(
-    `Hello Ar. Aman Verma, I am interested in inquiring about Plot #${selectedPlotId} (${currentPlotSpec.areaSqFt} sq.ft) in Bakde Vihar 3D Layout.`
+    `Hello Ar. Aman Verma, I am interested in inquiring about Plot #${selectedPlotId} (${currentPlotSpec.areaSqFt} sq.ft) in 3D Layout.`
   )}`;
 
   return (
@@ -191,9 +191,9 @@ export default function SmartLayoutView({ onNavigateHome, onNavigateBakdeVihar }
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FF7A00]/15 text-[#FF7A00] border border-[#FF7A00]/30 font-bold text-xs">
                 AVA
               </div>
-              <span className="text-sm font-bold tracking-wide text-white">AADHUNIK NAKSHA</span>
+              <span className="text-sm font-bold tracking-wide text-white">AVA SMART LAYOUT</span>
               <span className="hidden rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-semibold tracking-wider text-emerald-400 uppercase sm:inline-block">
-                3D Layout Platform
+                3D PropTech Platform
               </span>
             </div>
           </div>
@@ -212,10 +212,10 @@ export default function SmartLayoutView({ onNavigateHome, onNavigateBakdeVihar }
             <button
               type="button"
               onClick={handleOpenBakdeVihar}
-              className="inline-flex items-center gap-2 rounded-full bg-[#FF7A00] px-4 py-1.5 text-xs font-bold text-white shadow-[0_4px_20px_rgba(255,122,0,0.35)] transition-all hover:bg-[#e06c00] hover:scale-105 active:scale-95"
+              className="inline-flex items-center gap-2 rounded-full bg-[#FF7A00] px-4 py-1.5 text-xs font-bold text-white shadow-[0_4px_20px_rgba(255,122,0,0.35)] transition-all hover:bg-[#e06c00] hover:scale-105 active:scale-95 cursor-pointer"
             >
               <Maximize2 className="h-3.5 w-3.5" />
-              <span>Bakde Vihar 3D</span>
+              <span>Explore 3D</span>
             </button>
           </div>
         </div>
@@ -265,7 +265,7 @@ export default function SmartLayoutView({ onNavigateHome, onNavigateBakdeVihar }
                   className="inline-flex items-center gap-2.5 rounded-full bg-[#FF7A00] px-7 py-3.5 text-sm font-bold text-white shadow-[0_8px_30px_rgba(255,122,0,0.4)] transition-all hover:bg-[#e06c00] hover:scale-105"
                 >
                   <Maximize2 className="h-4 w-4" />
-                  <span>Explore Bakde Vihar in 3D</span>
+                  <span>Launch Live 3D Master Plan</span>
                 </button>
 
                 <a
@@ -312,7 +312,7 @@ export default function SmartLayoutView({ onNavigateHome, onNavigateBakdeVihar }
                 <div className="absolute top-4 left-4 flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-black/40 bg-black/70 px-3 py-1 text-xs font-semibold text-white backdrop-blur-md">
                     <span className="h-2 w-2 animate-ping rounded-full bg-emerald-400" />
-                    <span>Project: Bakde Vihar Plotted Layout</span>
+                    <span>Project: Malewad Plotted Layout</span>
                   </span>
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-950/80 px-3 py-1 text-xs font-semibold text-emerald-300 backdrop-blur-md">
                     245 Available • 36 Sold
@@ -332,11 +332,11 @@ export default function SmartLayoutView({ onNavigateHome, onNavigateBakdeVihar }
                     type="button"
                     onClick={handleOpenBakdeVihar}
                     className="group relative flex h-20 w-20 items-center justify-center rounded-full bg-[#FF7A00] text-white shadow-[0_0_50px_rgba(255,122,0,0.6)] transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
-                    aria-label="Open Bakde Vihar 3D interactive layout"
+                    aria-label="Open 3D interactive viewer"
                   >
                     <Box className="h-10 w-10 transition-transform duration-300 group-hover:rotate-12" />
                     <span className="absolute -bottom-8 whitespace-nowrap text-xs font-bold tracking-widest text-white uppercase drop-shadow-md">
-                      Open /bakde-vihar 3D
+                      Click to Explore 3D
                     </span>
                   </button>
                   <p className="mt-12 text-sm font-medium text-white/90 drop-shadow">
@@ -490,7 +490,7 @@ export default function SmartLayoutView({ onNavigateHome, onNavigateBakdeVihar }
                     className="inline-flex items-center gap-2 rounded-xl bg-white/10 px-5 py-3 text-xs font-bold text-white transition-all hover:bg-white/20 cursor-pointer"
                   >
                     <Search className="h-4 w-4 text-[#FF7A00]" />
-                    <span>Explore All 280+ Plots in Bakde Vihar 3D</span>
+                    <span>Search Any of 280+ Plots in 3D</span>
                   </button>
                 </div>
               </div>
@@ -585,7 +585,7 @@ export default function SmartLayoutView({ onNavigateHome, onNavigateBakdeVihar }
                       className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3.5 text-xs font-semibold text-white transition-all hover:bg-white/10 cursor-pointer"
                     >
                       <Eye className="h-4 w-4 text-[#FF7A00]" />
-                      <span>View in 3D Layout (/bakde-vihar)</span>
+                      <span>View in Full 3D Layout</span>
                     </button>
                   </div>
                 </div>
@@ -754,7 +754,7 @@ export default function SmartLayoutView({ onNavigateHome, onNavigateBakdeVihar }
                 className="inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-white/5 px-8 py-4 text-sm font-bold text-white backdrop-blur-sm transition-all hover:bg-white/10 cursor-pointer"
               >
                 <Maximize2 className="h-4 w-4 text-[#FF7A00]" />
-                <span>Launch Bakde Vihar 3D Layout</span>
+                <span>Launch 3D Layout</span>
               </button>
             </div>
           </div>
@@ -762,7 +762,7 @@ export default function SmartLayoutView({ onNavigateHome, onNavigateBakdeVihar }
 
         {/* Minimal Footer */}
         <footer className="border-t border-white/10 bg-black py-8 text-center text-xs text-white/40">
-          <p>© {new Date().getFullYear()} Aman Verma Architects. Aadhunik Naksha 3D Platform. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Aman Verma Architects. AVA Smart Layout 3D Engine. All rights reserved.</p>
         </footer>
       </div>
   );

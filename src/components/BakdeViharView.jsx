@@ -126,7 +126,7 @@ export default function BakdeViharView({ onNavigateAadhunikNaksha, onNavigateHom
             className="inline-flex items-center gap-2 rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/80 transition-colors hover:border-[#FF7A00] hover:bg-[#FF7A00]/15 hover:text-white"
           >
             <ArrowLeft className="h-3.5 w-3.5 text-[#FF7A00]" />
-            <span className="hidden sm:inline">Aadhunik Naksha</span>
+            <span className="hidden sm:inline">Smart Layout</span>
             <span className="sm:hidden">Back</span>
           </button>
 
